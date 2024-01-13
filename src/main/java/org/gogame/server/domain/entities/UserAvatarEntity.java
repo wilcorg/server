@@ -25,6 +25,5 @@ public class UserAvatarEntity {
     private UserEntity user_id;
 
     @Lob
-    @Basic(fetch = FetchType.LAZY)
     private byte[] avatar_png;
 }
