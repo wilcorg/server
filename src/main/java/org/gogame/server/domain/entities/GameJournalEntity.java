@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.validator.constraints.Range;
 
+import java.sql.Timestamp;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -33,5 +35,5 @@ public class GameJournalEntity {
     private Integer turn_y;
 
     @Column(nullable = false)
-    private java.sql.Timestamp turn_date;
+    private Timestamp turn_date;
 }

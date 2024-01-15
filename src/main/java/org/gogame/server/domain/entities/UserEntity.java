@@ -3,6 +3,8 @@ package org.gogame.server.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Timestamp;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
@@ -27,5 +29,5 @@ public class UserEntity {
     @Column(length=128, nullable = false, unique = true)
     private String email;
 
-    private java.sql.Timestamp join_date;
+    private Timestamp join_date;
 }
