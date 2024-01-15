@@ -9,31 +9,31 @@ public class TestDataUtil {
 
     public static UserEntity createTestUserEntityA() {
         return UserEntity.builder()
-                .user_id(1L)
+                .userId(1L)
                 .nickname("romka")
-                .password_hash("qwertyuiop")
+                .passwordHashSha512("qwertyuiop")
                 .email("romka@romka.romka")
-                .join_date(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 18, 33, 11)))
+                .joinDate(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 18, 33, 11)))
                 .build();
     }
 
     public static UserEntity createTestUserEntityB() {
         return UserEntity.builder()
-                .user_id(2L)
+                .userId(2L)
                 .nickname("romka2")
-                .password_hash("qwertyuiop2")
+                .passwordHashSha512("qwertyuiop2")
                 .email("romka2@romka.romka")
-                .join_date(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 18, 33, 12)))
+                .joinDate(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 18, 33, 12)))
                 .build();
     }
 
     public static UserEntity createTestUserEntityC() {
         return UserEntity.builder()
-                .user_id(3L)
+                .userId(3L)
                 .nickname("romka3")
-                .password_hash("qwertyuiop3")
+                .passwordHashSha512("qwertyuiop3")
                 .email("romka3@romka.romka")
-                .join_date(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 18, 33, 12)))
+                .joinDate(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 18, 33, 12)))
                 .build();
     }
 
@@ -41,17 +41,17 @@ public class TestDataUtil {
         var userA = createTestUserEntityA();
         var userB = createTestUserEntityB();
 
-        if (userRepo.findById(userA.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userA.getUserId()).isEmpty()) {
             userRepo.save(userA);
         }
-        if (userRepo.findById(userB.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userB.getUserId()).isEmpty()) {
             userRepo.save(userB);
         }
 
         return GameEntity.builder()
-                .game_id(1L)
-                .user_black(userA)
-                .user_white(userB)
+                .gameId(1L)
+                .userBlack(userA)
+                .userWhite(userB)
                 .winner(userA)
                 .build();
     }
@@ -60,17 +60,17 @@ public class TestDataUtil {
         var userA = createTestUserEntityA();
         var userB = createTestUserEntityB();
 
-        if (userRepo.findById(userA.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userA.getUserId()).isEmpty()) {
             userRepo.save(userA);
         }
-        if (userRepo.findById(userB.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userB.getUserId()).isEmpty()) {
             userRepo.save(userB);
         }
 
         return GameEntity.builder()
-                .game_id(2L)
-                .user_black(userA)
-                .user_white(userB)
+                .gameId(2L)
+                .userBlack(userA)
+                .userWhite(userB)
                 .winner(userB)
                 .build();
     }
@@ -79,17 +79,17 @@ public class TestDataUtil {
         var userB = createTestUserEntityB();
         var userC = createTestUserEntityC();
 
-        if (userRepo.findById(userB.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userB.getUserId()).isEmpty()) {
             userRepo.save(userB);
         }
-        if (userRepo.findById(userC.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userC.getUserId()).isEmpty()) {
             userRepo.save(userC);
         }
 
         return GameEntity.builder()
-                .game_id(3L)
-                .user_black(userC)
-                .user_white(userB)
+                .gameId(3L)
+                .userBlack(userC)
+                .userWhite(userB)
                 .winner(userC)
                 .build();
     }
@@ -97,7 +97,7 @@ public class TestDataUtil {
     public static GameJournalEntity createTestGameJournalEntityA(final GameRepository gameRepo,
                                                                  final UserRepository userRepo) {
         var gameEntity = createTestGameEntityA(userRepo);
-        if (gameRepo.findById(gameEntity.getGame_id()).isEmpty()) {
+        if (gameRepo.findById(gameEntity.getGameId()).isEmpty()) {
             gameRepo.save(gameEntity);
         }
 
@@ -105,37 +105,37 @@ public class TestDataUtil {
                 .turn_id(1L)
                 .game(gameEntity)
                 .actionType(GameActionType.MOVE)
-                .turn_x(1)
-                .turn_x(2)
-                .turn_date(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 23, 27, 18)))
+                .turnX(1)
+                .turnY(2)
+                .turnDate(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 23, 27, 18)))
                 .build();
     }
 
     public static GameJournalEntity createTestGameJournalEntityB(final GameRepository gameRepo,
                                                                  final UserRepository userRepo) {
         var gameEntity = createTestGameEntityB(userRepo);
-        if (gameRepo.findById(gameEntity.getGame_id()).isEmpty()) {
+        if (gameRepo.findById(gameEntity.getGameId()).isEmpty()) {
             gameRepo.save(gameEntity);
         }
 
         return GameJournalEntity.builder()
                 .game(gameEntity)
                 .actionType(GameActionType.STOP_REQ)
-                .turn_date(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 23, 27, 18)))
+                .turnDate(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 23, 27, 18)))
                 .build();
     }
 
     public static GameJournalEntity createTestGameJournalEntityC(final GameRepository gameRepo,
                                                                  final UserRepository userRepo) {
         var gameEntity = createTestGameEntityC(userRepo);
-        if (gameRepo.findById(gameEntity.getGame_id()).isEmpty()) {
+        if (gameRepo.findById(gameEntity.getGameId()).isEmpty()) {
             gameRepo.save(gameEntity);
         }
 
         return GameJournalEntity.builder()
                 .game(gameEntity)
                 .actionType(GameActionType.LEAVE)
-                .turn_date(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 23, 27, 18)))
+                .turnDate(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 23, 27, 18)))
                 .build();
     }
 
@@ -143,13 +143,13 @@ public class TestDataUtil {
 
         var userA = createTestUserEntityA();
 
-        if (userRepo.findById(userA.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userA.getUserId()).isEmpty()) {
             userRepo.save(userA);
         }
 
         return LeaderboardEntity.builder()
-                .user_pos(userA.getUser_id())
-                .user_id(userA)
+                .userPos(userA.getUserId())
+                .userId(userA)
                 .score(666L)
                 .build();
     }
@@ -158,13 +158,13 @@ public class TestDataUtil {
 
         var userB = createTestUserEntityB();
 
-        if (userRepo.findById(userB.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userB.getUserId()).isEmpty()) {
             userRepo.save(userB);
         }
 
         return LeaderboardEntity.builder()
-                .user_pos(userB.getUser_id())
-                .user_id(userB)
+                .userPos(userB.getUserId())
+                .userId(userB)
                 .score(145L)
                 .build();
     }
@@ -173,13 +173,13 @@ public class TestDataUtil {
 
         var userC = createTestUserEntityC();
 
-        if (userRepo.findById(userC.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userC.getUserId()).isEmpty()) {
             userRepo.save(userC);
         }
 
         return LeaderboardEntity.builder()
-                .user_pos(userC.getUser_id())
-                .user_id(userC)
+                .userPos(userC.getUserId())
+                .userId(userC)
                 .score(110L)
                 .build();
     }
@@ -189,15 +189,15 @@ public class TestDataUtil {
 
         var gameEntityA = createTestGameEntityA(userRepo);
 
-        if (gameRepo.findById(gameEntityA.getGame_id()).isEmpty()) {
+        if (gameRepo.findById(gameEntityA.getGameId()).isEmpty()) {
             gameRepo.save(gameEntityA);
         }
 
         return MessageEntity.builder()
-                .message_id(1L)
-                .game_id(gameEntityA.getGame_id())
-                .user_rx(gameEntityA.getUser_white())
-                .user_tx(gameEntityA.getUser_black())
+                .messageId(1L)
+                .gameId(gameEntityA.getGameId())
+                .userRx(gameEntityA.getUserWhite())
+                .userTx(gameEntityA.getUserBlack())
                 .text("tests are boring")
                 .build();
     }
@@ -207,15 +207,15 @@ public class TestDataUtil {
 
         var gameEntityB = createTestGameEntityB(userRepo);
 
-        if (gameRepo.findById(gameEntityB.getGame_id()).isEmpty()) {
+        if (gameRepo.findById(gameEntityB.getGameId()).isEmpty()) {
             gameRepo.save(gameEntityB);
         }
 
         return MessageEntity.builder()
-                .message_id(2L)
-                .game_id(gameEntityB.getGame_id())
-                .user_rx(gameEntityB.getUser_white())
-                .user_tx(gameEntityB.getUser_black())
+                .messageId(2L)
+                .gameId(gameEntityB.getGameId())
+                .userRx(gameEntityB.getUserWhite())
+                .userTx(gameEntityB.getUserBlack())
                 .text("very boring")
                 .build();
     }
@@ -225,15 +225,15 @@ public class TestDataUtil {
 
         var gameEntityC = createTestGameEntityC(userRepo);
 
-        if (gameRepo.findById(gameEntityC.getGame_id()).isEmpty()) {
+        if (gameRepo.findById(gameEntityC.getGameId()).isEmpty()) {
             gameRepo.save(gameEntityC);
         }
 
         return MessageEntity.builder()
-                .message_id(3L)
-                .game_id(gameEntityC.getGame_id())
-                .user_rx(gameEntityC.getUser_white())
-                .user_tx(gameEntityC.getUser_black())
+                .messageId(3L)
+                .gameId(gameEntityC.getGameId())
+                .userRx(gameEntityC.getUserWhite())
+                .userTx(gameEntityC.getUserBlack())
                 .text("very very boring")
                 .build();
     }
@@ -243,14 +243,14 @@ public class TestDataUtil {
         var userA = createTestUserEntityA();
         var image = new byte[]{0x1};
 
-        if (userRepo.findById(userA.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userA.getUserId()).isEmpty()) {
             userRepo.save(userA);
         }
 
         return UserAvatarEntity.builder()
                 .user_avatar_id(1L)
-                .user_id(userA)
-                .avatar_png(image)
+                .userId(userA)
+                .avatarPng(image)
                 .build();
     }
 
@@ -258,14 +258,14 @@ public class TestDataUtil {
 
         var userB = createTestUserEntityB();
 
-        if (userRepo.findById(userB.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userB.getUserId()).isEmpty()) {
             userRepo.save(userB);
         }
 
         return UserAvatarEntity.builder()
                 .user_avatar_id(2L)
-                .user_id(userB)
-                .avatar_png(new byte[]{0x1})
+                .userId(userB)
+                .avatarPng(new byte[]{0x1})
                 .build();
     }
     
@@ -273,14 +273,14 @@ public class TestDataUtil {
 
         var userC = createTestUserEntityC();
 
-        if (userRepo.findById(userC.getUser_id()).isEmpty()) {
+        if (userRepo.findById(userC.getUserId()).isEmpty()) {
             userRepo.save(userC);
         }
 
         return UserAvatarEntity.builder()
                 .user_avatar_id(3L)
-                .user_id(userC)
-                .avatar_png(new byte[]{0x1})
+                .userId(userC)
+                .avatarPng(new byte[]{0x1})
                 .build();
     }
 }

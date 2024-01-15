@@ -16,18 +16,19 @@ public class UserEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
     @SequenceGenerator(name = "user_id_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true)
-    private Long user_id;
+    @Column(nullable = false, unique = true, name = "user_id")
+    private Long userId;
 
 
     @Column(length=64, nullable = false, unique = true)
     private String nickname;
 
-    @Column(length=64, nullable = false)
-    private String password_hash;
+    @Column(length=64, nullable = false, name = "password_hash_sha512")
+    private String passwordHashSha512;
 
     @Column(length=128, nullable = false, unique = true)
     private String email;
 
-    private Timestamp join_date;
+    @Column(name = "join_date")
+    private Timestamp joinDate;
 }

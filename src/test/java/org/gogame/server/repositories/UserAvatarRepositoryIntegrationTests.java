@@ -56,7 +56,7 @@ public class UserAvatarRepositoryIntegrationTests {
     public void testThatUserAvatarCanBeUpdated() {
         UserAvatarEntity userAvatarA = TestDataUtil.createTestUserAvatarEntityA(userRepo);
         userAvatarRepo.save(userAvatarA);
-        userAvatarA.setAvatar_png(new byte[]{0x2});
+        userAvatarA.setAvatarPng(new byte[]{0x2});
         userAvatarRepo.save(userAvatarA);
         Optional<UserAvatarEntity> result = userAvatarRepo.findById(userAvatarA.getUser_avatar_id());
         assertThat(result).isPresent();

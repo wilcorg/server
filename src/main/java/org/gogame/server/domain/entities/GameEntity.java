@@ -14,8 +14,8 @@ public class GameEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_id_seq")
     @SequenceGenerator(name = "game_id_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true)
-    private Long game_id;
+    @Column(nullable = false, unique = true, name = "game_id")
+    private Long gameId;
 
 
     @ManyToOne
@@ -24,9 +24,9 @@ public class GameEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_black_id", referencedColumnName = "user_id")
-    private UserEntity user_black;
+    private UserEntity userBlack;
 
     @ManyToOne
     @JoinColumn(name = "user_white_id", referencedColumnName = "user_id")
-    private UserEntity user_white;
+    private UserEntity userWhite;
 }

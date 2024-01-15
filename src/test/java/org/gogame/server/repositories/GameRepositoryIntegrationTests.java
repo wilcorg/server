@@ -33,7 +33,7 @@ public class GameRepositoryIntegrationTests {
     public void testThatGameCanBeCreatedAndRecalled() {
         GameEntity gameEntityA = TestDataUtil.createTestGameEntityA(userRepo);
         gameRepo.save(gameEntityA);
-        Optional<GameEntity> result = gameRepo.findById(gameEntityA.getGame_id());
+        Optional<GameEntity> result = gameRepo.findById(gameEntityA.getGameId());
         assertThat(result).isPresent();
         assertThat(result).contains(gameEntityA);
     }
@@ -56,9 +56,9 @@ public class GameRepositoryIntegrationTests {
     public void testThatGameCanBeUpdated() {
         GameEntity gameEntityA = TestDataUtil.createTestGameEntityA(userRepo);
         gameRepo.save(gameEntityA);
-        gameEntityA.setWinner(gameEntityA.getUser_white());
+        gameEntityA.setWinner(gameEntityA.getUserWhite());
         gameRepo.save(gameEntityA);
-        Optional<GameEntity> result = gameRepo.findById(gameEntityA.getGame_id());
+        Optional<GameEntity> result = gameRepo.findById(gameEntityA.getGameId());
         assertThat(result).isPresent();
         assertThat(result).contains(gameEntityA);
     }
@@ -67,8 +67,8 @@ public class GameRepositoryIntegrationTests {
     public void testThatGameCanBeDeleted() {
         GameEntity gameEntityA = TestDataUtil.createTestGameEntityA(userRepo);
         gameRepo.save(gameEntityA);
-        gameRepo.deleteById(gameEntityA.getGame_id());
-        Optional<GameEntity> result = gameRepo.findById(gameEntityA.getGame_id());
+        gameRepo.deleteById(gameEntityA.getGameId());
+        Optional<GameEntity> result = gameRepo.findById(gameEntityA.getGameId());
         assertThat(result).isEmpty();
     }
 }

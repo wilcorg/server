@@ -30,7 +30,7 @@ public class UserRepositoryIntegrationTests {
     public void testThatUserCanBeCreatedAndRecalled() {
         UserEntity userEntityA = TestDataUtil.createTestUserEntityA();
         underTest.save(userEntityA);
-        Optional<UserEntity> result = underTest.findById(userEntityA.getUser_id());
+        Optional<UserEntity> result = underTest.findById(userEntityA.getUserId());
         assertThat(result).isPresent();
         assertThat(result).contains(userEntityA);
     }
@@ -55,7 +55,7 @@ public class UserRepositoryIntegrationTests {
         underTest.save(userEntityA);
         userEntityA.setNickname("UPDATED");
         underTest.save(userEntityA);
-        Optional<UserEntity> result = underTest.findById(userEntityA.getUser_id());
+        Optional<UserEntity> result = underTest.findById(userEntityA.getUserId());
         assertThat(result).isPresent();
         assertThat(result).contains(userEntityA);
     }
@@ -64,8 +64,8 @@ public class UserRepositoryIntegrationTests {
     public void testThatUserCanBeDeleted() {
         UserEntity userEntityA = TestDataUtil.createTestUserEntityA();
         underTest.save(userEntityA);
-        underTest.deleteById(userEntityA.getUser_id());
-        Optional<UserEntity> result = underTest.findById(userEntityA.getUser_id());
+        underTest.deleteById(userEntityA.getUserId());
+        Optional<UserEntity> result = underTest.findById(userEntityA.getUserId());
         assertThat(result).isEmpty();
     }
 }

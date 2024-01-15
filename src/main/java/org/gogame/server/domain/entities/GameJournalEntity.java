@@ -29,11 +29,13 @@ public class GameJournalEntity {
     private GameActionType actionType;
 
     @Range(min = 0, max = 18)
-    private Integer turn_x;
+    @Column(name = "turn_x")
+    private Integer turnX;
 
     @Range(min = 0, max = 18)
-    private Integer turn_y;
+    @Column(name = "turn_y")
+    private Integer turnY;
 
-    @Column(nullable = false)
-    private Timestamp turn_date;
+    @Column(nullable = false, name = "turn_date")
+    private Timestamp turnDate;
 }

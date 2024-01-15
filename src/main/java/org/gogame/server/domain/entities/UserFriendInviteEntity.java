@@ -17,14 +17,14 @@ public class UserFriendInviteEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "friend_inv_id_seq")
     @SequenceGenerator(name = "friend_inv_id_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true)
-    private Long friend_invite_id;
+    @Column(nullable = false, unique = true, name = "friend_invite_id")
+    private Long friendInviteId;
 
     @ManyToOne
     @JoinColumn(name = "user_sender_id", referencedColumnName = "user_id")
-    private UserEntity user_sender_id;
+    private UserEntity userSenderId;
 
     @ManyToOne
     @JoinColumn(name = "user_receiver_id", referencedColumnName = "user_id")
-    private UserEntity user_receiver_id;
+    private UserEntity userReceiverId;
 }

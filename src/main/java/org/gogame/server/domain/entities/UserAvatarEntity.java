@@ -22,8 +22,9 @@ public class UserAvatarEntity {
 
     @OneToOne
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private UserEntity user_id;
+    private UserEntity userId;
 
     @Lob
-    private byte[] avatar_png;
+    @Column(name = "avatar_png")
+    private byte[] avatarPng;
 }

@@ -19,18 +19,21 @@ public class UserStatsEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_stats_id_seq")
     @SequenceGenerator(name = "user_stats_id_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true)
-    private Long user_stats_id;
+    @Column(nullable = false, unique = true, name = "user_stats_id")
+    private Long userStatsId;
 
     @Range(min = 0)
     @ColumnDefault("0")
-    private Long game_played;
+    @Column(name = "game_played")
+    private Long gamePlayed;
 
     @Range(min = 0)
     @ColumnDefault("0")
-    private Long game_won;
+    @Column(name = "game_won")
+    private Long gameWon;
 
     @Range(min = 0)
     @ColumnDefault("0")
-    private Long game_lost;
+    @Column(name = "game_lost")
+    private Long gameLost;
 }

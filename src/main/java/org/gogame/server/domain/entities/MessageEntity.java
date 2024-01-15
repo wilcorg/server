@@ -17,18 +17,19 @@ public class MessageEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "turn_id_seq")
     @SequenceGenerator(name = "turn_id_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true)
-    private Long message_id;
+    @Column(nullable = false, unique = true, name = "message_id")
+    private Long messageId;
 
-    private Long game_id;
+    @Column(name = "game_id")
+    private Long gameId;
 
     @ManyToOne
     @JoinColumn(name = "user_rx_id", referencedColumnName = "user_id")
-    private UserEntity user_rx;
+    private UserEntity userRx;
 
     @ManyToOne
     @JoinColumn(name = "user_tx_id", referencedColumnName = "user_id")
-    private UserEntity user_tx;
+    private UserEntity userTx;
 
     @Column(nullable = false, length = 2048)
     private String text;
