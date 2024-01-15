@@ -19,10 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class LeaderboardRepositoryIntegrationTests {
 
-    @Autowired
     private final UserRepository userRepo;
 
-    @Autowired
     private final LeaderboardRepository leaderboardRepo;
 
     @Autowired

@@ -19,10 +19,8 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 public class GameRepositoryIntegrationTests {
 
-    @Autowired
     private final GameRepository gameRepo;
 
-    @Autowired
     private final UserRepository userRepo;
 
     @Autowired
