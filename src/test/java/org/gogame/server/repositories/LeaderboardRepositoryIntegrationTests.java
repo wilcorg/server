@@ -36,7 +36,7 @@ public class LeaderboardRepositoryIntegrationTests {
         leaderboardRepo.save(leaderboardEntityA);
         Optional<LeaderboardEntity> result = leaderboardRepo.findById(leaderboardEntityA.getUserPos());
         assertThat(result).isPresent();
-        assertThat(result).contains(leaderboardEntityA);
+        assertThat(result).contains(leaderboardEntityB);
     }
 
     @Test
