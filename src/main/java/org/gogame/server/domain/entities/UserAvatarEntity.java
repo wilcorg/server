@@ -24,7 +24,6 @@ public class UserAvatarEntity {
     @JoinColumn(name = "user_id", referencedColumnName = "user_id")
     private UserEntity userId;
 
-    @Lob
     @Column(name = "avatar_png")
     private byte[] avatarPng;
 }
