@@ -34,7 +34,7 @@ public class LeaderboardRepositoryIntegrationTests {
     public void testThatLeaderboardCanBeCreatedAndRecalled() {
         LeaderboardEntity leaderboardEntityA = TestDataUtil.createTestLeaderboardEntityA(userRepo);
         leaderboardRepo.save(leaderboardEntityA);
-        Optional<LeaderboardEntity> result = leaderboardRepo.findById(leaderboardEntityA.getUserPos());
+        Optional<LeaderboardEntity> result = leaderboardRepo.findById(leaderboardEntityA.getUser().getUserId());
         assertThat(result).isPresent();
         assertThat(result).contains(leaderboardEntityA);
     }
@@ -59,7 +59,7 @@ public class LeaderboardRepositoryIntegrationTests {
         leaderboardRepo.save(leaderboardEntityA);
         leaderboardEntityA.setScore(16L);
         leaderboardRepo.save(leaderboardEntityA);
-        Optional<LeaderboardEntity> result = leaderboardRepo.findById(leaderboardEntityA.getUserPos());
+        Optional<LeaderboardEntity> result = leaderboardRepo.findById(leaderboardEntityA.getUser().getUserId());
         assertThat(result).isPresent();
         assertThat(result).contains(leaderboardEntityA);
     }
@@ -68,8 +68,8 @@ public class LeaderboardRepositoryIntegrationTests {
     public void testThatLeaderboardCanBeDeleted() {
         LeaderboardEntity leaderboardEntityA = TestDataUtil.createTestLeaderboardEntityA(userRepo);
         leaderboardRepo.save(leaderboardEntityA);
-        leaderboardRepo.deleteById(leaderboardEntityA.getUserPos());
-        Optional<LeaderboardEntity> result = leaderboardRepo.findById(leaderboardEntityA.getUserPos());
+        leaderboardRepo.deleteById(leaderboardEntityA.getUser().getUserId());
+        Optional<LeaderboardEntity> result = leaderboardRepo.findById(leaderboardEntityA.getUser().getUserId());
         assertThat(result).isEmpty();
     }
 }

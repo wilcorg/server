@@ -15,21 +15,16 @@ import lombok.NoArgsConstructor;
 public class MessageEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "turn_id_seq")
-    @SequenceGenerator(name = "turn_id_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true, name = "message_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "message_id", nullable = false, unique = true)
     private Long messageId;
 
-    @Column(name = "game_id")
+    @Column(name = "game_id", nullable = false, unique = true)
     private Long gameId;
 
     @ManyToOne
-    @JoinColumn(name = "user_rx_id", referencedColumnName = "user_id")
-    private UserEntity userRx;
-
-    @ManyToOne
-    @JoinColumn(name = "user_tx_id", referencedColumnName = "user_id")
-    private UserEntity userTx;
+    @PrimaryKeyJoinColumn(name = "author_id")
+    private UserEntity author;
 
     @Column(nullable = false, length = 2048)
     private String text;

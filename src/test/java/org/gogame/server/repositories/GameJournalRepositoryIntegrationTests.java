@@ -1,6 +1,6 @@
 package org.gogame.server.repositories;
 
-import org.gogame.server.domain.entities.GameActionType;
+import org.gogame.server.domain.entities.GameAction;
 import org.gogame.server.domain.entities.GameJournalEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -38,7 +38,7 @@ public class GameJournalRepositoryIntegrationTests {
     public void testThatGameJournalCanBeCreatedAndRecalled() {
         GameJournalEntity gameJournalEntityA = TestDataUtil.createTestGameJournalEntityA(gameRepo, userRepo);
         gameJournalRepo.save(gameJournalEntityA);
-        Optional<GameJournalEntity> result = gameJournalRepo.findById(gameJournalEntityA.getTurn_id());
+        Optional<GameJournalEntity> result = gameJournalRepo.findById(gameJournalEntityA.getTurnId());
         assertThat(result).isPresent();
         assertThat(result).contains(gameJournalEntityA);
     }
@@ -61,9 +61,9 @@ public class GameJournalRepositoryIntegrationTests {
     public void testThatGameJournalCanBeUpdated() {
         GameJournalEntity gameJournalEntityA = TestDataUtil.createTestGameJournalEntityA(gameRepo, userRepo);
         gameJournalRepo.save(gameJournalEntityA);
-        gameJournalEntityA.setActionType(GameActionType.STOP_REQ);
+        gameJournalEntityA.setAction(GameAction.STOP_REQ);
         gameJournalRepo.save(gameJournalEntityA);
-        Optional<GameJournalEntity> result = gameJournalRepo.findById(gameJournalEntityA.getTurn_id());
+        Optional<GameJournalEntity> result = gameJournalRepo.findById(gameJournalEntityA.getTurnId());
         assertThat(result).isPresent();
         assertThat(result).contains(gameJournalEntityA);
     }
@@ -72,8 +72,8 @@ public class GameJournalRepositoryIntegrationTests {
     public void testThatGameJournalCanBeDeleted() {
         GameJournalEntity gameJournalEntityA = TestDataUtil.createTestGameJournalEntityA(gameRepo, userRepo);
         gameJournalRepo.save(gameJournalEntityA);
-        gameJournalRepo.deleteById(gameJournalEntityA.getTurn_id());
-        Optional<GameJournalEntity> result = gameJournalRepo.findById(gameJournalEntityA.getTurn_id());
+        gameJournalRepo.deleteById(gameJournalEntityA.getTurnId());
+        Optional<GameJournalEntity> result = gameJournalRepo.findById(gameJournalEntityA.getTurnId());
         assertThat(result).isEmpty();
     }
 }

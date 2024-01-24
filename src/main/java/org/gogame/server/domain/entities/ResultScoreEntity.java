@@ -12,14 +12,14 @@ import lombok.*;
 public class ResultScoreEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "result_score_id_seq")
-    @SequenceGenerator(name = "result_score_id_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true, name = "result_score_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "result_score_id", nullable = false, unique = true)
     private Long resultScoreId;
 
-    @Column(length = 5, nullable = false)
-    private String result;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "game_result", length = 5, nullable = false, unique = true)
+    private GameResult result;
 
-    @Column(nullable = false, name = "score_value")
+    @Column(name = "score_value", nullable = false)
     private Long scoreValue;
 }

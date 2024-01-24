@@ -15,18 +15,20 @@ import java.sql.Timestamp;
 public class GameJournalEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "turn_id_seq")
-    @SequenceGenerator(name = "turn_id_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true)
-    private Long turn_id;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "turn_id", nullable = false, unique = true)
+    private Long turnId;
 
-    @OneToOne
-    @JoinColumn(name = "game_id", referencedColumnName = "game_id")
-    private GameEntity game;
+    @Column(name = "game_id", nullable = false, unique = true)
+    private Long gameId;
+
+    @ManyToOne
+    @PrimaryKeyJoinColumn(name = "author_id")
+    private UserEntity author;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 9, nullable = false)
-    private GameActionType actionType;
+    @Column(name = "game_action", length = 9, nullable = false)
+    private GameAction action;
 
     @Range(min = 0, max = 18)
     @Column(name = "turn_x")
@@ -36,6 +38,6 @@ public class GameJournalEntity {
     @Column(name = "turn_y")
     private Integer turnY;
 
-    @Column(nullable = false, name = "turn_date")
+    @Column(name = "turn_date", nullable = false)
     private Timestamp turnDate;
 }

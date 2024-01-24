@@ -1,10 +1,13 @@
 package org.gogame.server.repositories;
 
 import org.gogame.server.domain.entities.GameEntity;
+import org.gogame.server.domain.entities.GameResult;
+import org.gogame.server.domain.entities.UserColor;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.util.Pair;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -31,44 +34,89 @@ public class GameRepositoryIntegrationTests {
 
     @Test
     public void testThatGameCanBeCreatedAndRecalled() {
-        GameEntity gameEntityA = TestDataUtil.createTestGameEntityA(userRepo);
-        gameRepo.save(gameEntityA);
-        Optional<GameEntity> result = gameRepo.findById(gameEntityA.getGameId());
-        assertThat(result).isPresent();
-        assertThat(result).contains(gameEntityA);
+        Pair<GameEntity, GameEntity> gameEntityA = TestDataUtil.createTestGameEntityA(userRepo);
+        gameRepo.save(gameEntityA.getFirst());
+        gameRepo.save(gameEntityA.getSecond());
+
+        Optional<GameEntity> resultFirst = gameRepo.findById(gameEntityA.getFirst().getId());
+        Optional<GameEntity> resultSecond = gameRepo.findById(gameEntityA.getSecond().getId());
+
+        assertThat(resultFirst).isPresent();
+        assertThat(resultFirst).contains(gameEntityA.getFirst());
+
+        assertThat(resultSecond).isPresent();
+        assertThat(resultSecond).contains(gameEntityA.getSecond());
+
+        assertThat(resultFirst.get().getGameId())
+                .isEqualTo(resultSecond.get().getGameId());
     }
 
     @Test
     public void testThatMultipleGamesCanBeCreatedAndRecalled() {
-        GameEntity gameEntityA = TestDataUtil.createTestGameEntityA(userRepo);
-        gameRepo.save(gameEntityA);
-        GameEntity gameEntityB = TestDataUtil.createTestGameEntityB(userRepo);
-        gameRepo.save(gameEntityB);
-        GameEntity gameEntityC = TestDataUtil.createTestGameEntityC(userRepo);
-        gameRepo.save(gameEntityC);
+        Pair<GameEntity, GameEntity> gameEntityA = TestDataUtil.createTestGameEntityA(userRepo);
+        gameRepo.save(gameEntityA.getFirst());
+        gameRepo.save(gameEntityA.getSecond());
+
+        Pair<GameEntity, GameEntity> gameEntityB = TestDataUtil.createTestGameEntityB(userRepo);
+        gameRepo.save(gameEntityB.getFirst());
+        gameRepo.save(gameEntityB.getSecond());
+
+        Pair<GameEntity, GameEntity> gameEntityC = TestDataUtil.createTestGameEntityC(userRepo);
+        gameRepo.save(gameEntityC.getFirst());
+        gameRepo.save(gameEntityC.getSecond());
 
         Iterable<GameEntity> result = gameRepo.findAll();
-        Iterable<GameEntity> expected = new ArrayList<>(Arrays.asList(gameEntityA, gameEntityB, gameEntityC));
+        Iterable<GameEntity> expected = new ArrayList<>(Arrays.asList(
+                gameEntityA.getFirst(), gameEntityA.getSecond(),
+                gameEntityB.getFirst(), gameEntityB.getSecond(),
+                gameEntityC.getFirst(), gameEntityC.getSecond()
+        ));
+
         assertThat(result).containsExactlyInAnyOrderElementsOf(expected);
     }
 
     @Test
     public void testThatGameCanBeUpdated() {
-        GameEntity gameEntityA = TestDataUtil.createTestGameEntityA(userRepo);
-        gameRepo.save(gameEntityA);
-        gameEntityA.setWinner(gameEntityA.getUserWhite());
-        gameRepo.save(gameEntityA);
-        Optional<GameEntity> result = gameRepo.findById(gameEntityA.getGameId());
-        assertThat(result).isPresent();
-        assertThat(result).contains(gameEntityA);
+        Pair<GameEntity, GameEntity> gameEntityA = TestDataUtil.createTestGameEntityA(userRepo);
+        gameRepo.save(gameEntityA.getFirst());
+        gameRepo.save(gameEntityA.getSecond());
+
+        gameEntityA.getFirst().setResult(
+                gameEntityA.getFirst().getUserColor() == UserColor.WHITE
+                        ? GameResult.WIN : GameResult.LOSS
+        );
+        gameEntityA.getSecond().setResult(
+                gameEntityA.getSecond().getUserColor() == UserColor.WHITE
+                        ? GameResult.WIN : GameResult.LOSS
+        );
+
+        gameRepo.save(gameEntityA.getFirst());
+        gameRepo.save(gameEntityA.getSecond());
+
+        Optional<GameEntity> resultFirst = gameRepo.findById(gameEntityA.getFirst().getId());
+        Optional<GameEntity> resultSecond = gameRepo.findById(gameEntityA.getSecond().getId());
+
+        assertThat(resultFirst).isPresent();
+        assertThat(resultFirst).contains(gameEntityA.getFirst());
+
+        assertThat(resultSecond).isPresent();
+        assertThat(resultSecond).contains(gameEntityA.getSecond());
     }
 
     @Test
     public void testThatGameCanBeDeleted() {
-        GameEntity gameEntityA = TestDataUtil.createTestGameEntityA(userRepo);
-        gameRepo.save(gameEntityA);
-        gameRepo.deleteById(gameEntityA.getGameId());
-        Optional<GameEntity> result = gameRepo.findById(gameEntityA.getGameId());
-        assertThat(result).isEmpty();
+        Pair<GameEntity, GameEntity> gameEntityA = TestDataUtil.createTestGameEntityA(userRepo);
+
+        gameRepo.save(gameEntityA.getFirst());
+        gameRepo.save(gameEntityA.getSecond());
+
+        gameRepo.deleteById(gameEntityA.getFirst().getId());
+        gameRepo.deleteById(gameEntityA.getSecond().getId());
+
+        Optional<GameEntity> resultFirst = gameRepo.findById(gameEntityA.getFirst().getId());
+        Optional<GameEntity> resultSecond = gameRepo.findById(gameEntityA.getSecond().getId());
+
+        assertThat(resultFirst).isEmpty();
+        assertThat(resultSecond).isEmpty();
     }
 }

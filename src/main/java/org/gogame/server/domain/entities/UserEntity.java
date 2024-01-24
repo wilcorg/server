@@ -10,23 +10,21 @@ import java.sql.Timestamp;
 @NoArgsConstructor
 @Builder
 @Entity
-@Table(name = "user_list")
+@Table(name = "user_info")
 public class UserEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
-    @SequenceGenerator(name = "user_id_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true, name = "user_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "user_id", nullable = false, unique = true)
     private Long userId;
 
-
-    @Column(length=64, nullable = false, unique = true)
+    @Column(length = 64, nullable = false, unique = true)
     private String nickname;
 
-    @Column(length=64, nullable = false, name = "password_hash_sha512")
-    private String passwordHashSha512;
+    @Column(name = "password_hash", length = 64, nullable = false)
+    private String passwordHash;
 
-    @Column(length=128, nullable = false, unique = true)
+    @Column(length = 128, nullable = false, unique = true)
     private String email;
 
     @Column(name = "join_date")

@@ -3,30 +3,43 @@ package org.gogame.server.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
 @Entity
 @Table(name = "game")
+@IdClass(GameEntity.GameEntityId.class)
 public class GameEntity {
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class GameEntityId implements Serializable {
+        private Long gameId;
+        private Long userId;
+    }
+
+    public GameEntityId getId() {
+        return new GameEntityId(this.getGameId(), this.getUserId());
+    }
+
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "game_id_seq")
-    @SequenceGenerator(name = "game_id_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true, name = "game_id")
+    // TODO figure out id generation for this
+    @Column(name = "game_id", nullable = false)
     private Long gameId;
 
+    @Id
+    @Column(name = "user_id", nullable = false)
+    private Long userId;
 
-    @ManyToOne
-    @JoinColumn(name = "winner_id", referencedColumnName = "user_id")
-    private UserEntity winner;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "user_color", nullable = false)
+    private UserColor userColor;
 
-    @ManyToOne
-    @JoinColumn(name = "user_black_id", referencedColumnName = "user_id")
-    private UserEntity userBlack;
-
-    @ManyToOne
-    @JoinColumn(name = "user_white_id", referencedColumnName = "user_id")
-    private UserEntity userWhite;
+    @Enumerated(EnumType.STRING)
+    @Column(name = "game_result", length = 5)
+    private GameResult result;
 }

@@ -15,16 +15,15 @@ import lombok.NoArgsConstructor;
 public class UserLobbyEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_lobby_id_seq")
-    @SequenceGenerator(name = "user_lobby_id_seq", allocationSize = 1)
-    @Column(nullable = false, unique = true, name = "user_lobby_id")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "user_lobby_id", nullable = false, unique = true)
     private Long userLobbyId;
 
     @ManyToOne
-    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
-    private UserEntity userId;
+    @PrimaryKeyJoinColumn(name = "user_id")
+    private UserEntity user;
 
     @Enumerated(EnumType.STRING)
-    @Column(length = 10, nullable = false, name = "user_lobby_state")
+    @Column(name = "user_lobby_state", length = 10, nullable = false)
     private UserLobbyState userLobbyState;
 }
