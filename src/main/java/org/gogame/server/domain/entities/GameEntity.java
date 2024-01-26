@@ -17,11 +17,11 @@ public class GameEntity {
     private Long gameId;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "user_white_id")
+    @PrimaryKeyJoinColumn
     private UserEntity userWhite;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "user_black_id")
+    @PrimaryKeyJoinColumn
     private UserEntity userBlack;
 
     @ManyToOne
