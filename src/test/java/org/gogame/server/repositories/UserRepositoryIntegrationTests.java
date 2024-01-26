@@ -28,7 +28,7 @@ public class UserRepositoryIntegrationTests {
 
     @Test
     public void testThatUserCanBeCreatedAndRecalled() {
-        UserEntity userEntityA = TestDataUtil.createTestUserEntityA();
+        UserEntity userEntityA = TestData.UserEntityUtils.createA();
         underTest.save(userEntityA);
         Optional<UserEntity> result = underTest.findById(userEntityA.getUserId());
         assertThat(result).isPresent();
@@ -37,11 +37,11 @@ public class UserRepositoryIntegrationTests {
 
     @Test
     public void testThatMultipleUsersCanBeCreatedAndRecalled() {
-        UserEntity userEntityA = TestDataUtil.createTestUserEntityA();
+        UserEntity userEntityA = TestData.UserEntityUtils.createA();
         underTest.save(userEntityA);
-        UserEntity userEntityB = TestDataUtil.createTestUserEntityB();
+        UserEntity userEntityB = TestData.UserEntityUtils.createB();
         underTest.save(userEntityB);
-        UserEntity userEntityC = TestDataUtil.createTestUserEntityC();
+        UserEntity userEntityC = TestData.UserEntityUtils.createC();
         underTest.save(userEntityC);
 
         Iterable<UserEntity> result = underTest.findAll();
@@ -51,7 +51,7 @@ public class UserRepositoryIntegrationTests {
 
     @Test
     public void testThatUserCanBeUpdated() {
-        UserEntity userEntityA = TestDataUtil.createTestUserEntityA();
+        UserEntity userEntityA = TestData.UserEntityUtils.createA();
         underTest.save(userEntityA);
         userEntityA.setNickname("UPDATED");
         underTest.save(userEntityA);
@@ -62,7 +62,7 @@ public class UserRepositoryIntegrationTests {
 
     @Test
     public void testThatUserCanBeDeleted() {
-        UserEntity userEntityA = TestDataUtil.createTestUserEntityA();
+        UserEntity userEntityA = TestData.UserEntityUtils.createA();
         underTest.save(userEntityA);
         underTest.deleteById(userEntityA.getUserId());
         Optional<UserEntity> result = underTest.findById(userEntityA.getUserId());

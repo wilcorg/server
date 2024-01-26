@@ -19,11 +19,12 @@ public class GameJournalEntity {
     @Column(name = "turn_id", nullable = false, unique = true)
     private Long turnId;
 
-    @Column(name = "game_id", nullable = false, unique = true)
-    private Long gameId;
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private GameEntity game;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "author_id")
+    @PrimaryKeyJoinColumn
     private UserEntity author;
 
     @Enumerated(EnumType.STRING)

@@ -20,10 +20,10 @@ public class UserFriendInviteEntity {
     private Long friendInviteId;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "user_sender_id")
+    @PrimaryKeyJoinColumn
     private UserEntity userSender;
 
     @ManyToOne
-    @PrimaryKeyJoinColumn(name = "user_receiver_id")
+    @PrimaryKeyJoinColumn
     private UserEntity userReceiver;
 }

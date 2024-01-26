@@ -36,7 +36,7 @@ public class GameJournalRepositoryIntegrationTests {
 
     @Test
     public void testThatGameJournalCanBeCreatedAndRecalled() {
-        GameJournalEntity gameJournalEntityA = TestDataUtil.createTestGameJournalEntityA(gameRepo, userRepo);
+        GameJournalEntity gameJournalEntityA = TestData.GameJournalUtils.createA(gameRepo, userRepo);
         gameJournalRepo.save(gameJournalEntityA);
         Optional<GameJournalEntity> result = gameJournalRepo.findById(gameJournalEntityA.getTurnId());
         assertThat(result).isPresent();
@@ -45,11 +45,11 @@ public class GameJournalRepositoryIntegrationTests {
 
     @Test
     public void testThatMultipleGameJournalsCanBeCreatedAndRecalled() {
-        GameJournalEntity gameJournalEntityA = TestDataUtil.createTestGameJournalEntityA(gameRepo, userRepo);
+        GameJournalEntity gameJournalEntityA = TestData.GameJournalUtils.createA(gameRepo, userRepo);
         gameJournalRepo.save(gameJournalEntityA);
-        GameJournalEntity gameJournalEntityB = TestDataUtil.createTestGameJournalEntityB(gameRepo, userRepo);
+        GameJournalEntity gameJournalEntityB = TestData.GameJournalUtils.createB(gameRepo, userRepo);
         gameJournalRepo.save(gameJournalEntityB);
-        GameJournalEntity gameJournalEntityC = TestDataUtil.createTestGameJournalEntityC(gameRepo, userRepo);
+        GameJournalEntity gameJournalEntityC = TestData.GameJournalUtils.createC(gameRepo, userRepo);
         gameJournalRepo.save(gameJournalEntityC);
 
         Iterable<GameJournalEntity> result = gameJournalRepo.findAll();
@@ -59,7 +59,7 @@ public class GameJournalRepositoryIntegrationTests {
 
     @Test
     public void testThatGameJournalCanBeUpdated() {
-        GameJournalEntity gameJournalEntityA = TestDataUtil.createTestGameJournalEntityA(gameRepo, userRepo);
+        GameJournalEntity gameJournalEntityA = TestData.GameJournalUtils.createA(gameRepo, userRepo);
         gameJournalRepo.save(gameJournalEntityA);
         gameJournalEntityA.setAction(GameAction.STOP_REQ);
         gameJournalRepo.save(gameJournalEntityA);
@@ -70,7 +70,7 @@ public class GameJournalRepositoryIntegrationTests {
 
     @Test
     public void testThatGameJournalCanBeDeleted() {
-        GameJournalEntity gameJournalEntityA = TestDataUtil.createTestGameJournalEntityA(gameRepo, userRepo);
+        GameJournalEntity gameJournalEntityA = TestData.GameJournalUtils.createA(gameRepo, userRepo);
         gameJournalRepo.save(gameJournalEntityA);
         gameJournalRepo.deleteById(gameJournalEntityA.getTurnId());
         Optional<GameJournalEntity> result = gameJournalRepo.findById(gameJournalEntityA.getTurnId());
