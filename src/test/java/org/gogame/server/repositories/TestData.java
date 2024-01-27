@@ -1,12 +1,14 @@
 package org.gogame.server.repositories;
 
 import org.gogame.server.domain.entities.*;
+import org.gogame.server.domain.entities.dto.UserLoginDto;
+import org.gogame.server.domain.entities.dto.UserRegisterDto;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public class TestData {
-    static class UserEntityUtils {
+    public static class UserEntityUtils {
 
         public static UserEntity createA() {
             return UserEntity.builder()
@@ -36,7 +38,7 @@ public class TestData {
         }
     }
 
-    static class GameEntityUtils {
+    public static class GameEntityUtils {
 
         public static GameEntity createA(final UserRepository userRepo) {
             var userW = UserEntityUtils.createA();
@@ -152,7 +154,7 @@ public class TestData {
         }
     }
 
-    static class LeaderboardUtils {
+    public static class LeaderboardUtils {
 
         public static LeaderboardEntity createA(final UserRepository userRepo) {
 
@@ -197,7 +199,7 @@ public class TestData {
         }
     }
 
-    static class MessageUtils {
+    public static class MessageUtils {
 
         public static MessageEntity createA(final GameRepository gameRepo,
                                             final UserRepository userRepo) {
@@ -235,6 +237,64 @@ public class TestData {
                     .game(gameEntity)
                     .author(gameEntity.getUserWhite())
                     .content("very very boring")
+                    .build();
+        }
+    }
+
+    public static class RegisterDtoUtils {
+
+        public static UserRegisterDto createA() {
+            return UserRegisterDto.builder()
+                    .nickname("romka")
+                    .password("qwertyuiop")
+                    .email("romka@romka.romka")
+                    .build();
+        }
+
+        public static UserRegisterDto createB() {
+            return UserRegisterDto.builder()
+                    .nickname("romka2")
+                    .password("qwertyuiop2")
+                    .email("romka2@romka.romka")
+                    .build();
+        }
+
+        public static UserRegisterDto createC() {
+            return UserRegisterDto.builder()
+                    .nickname("romka3")
+                    .password("qwertyuiop3")
+                    .email("romka3@romka.romka")
+                    .build();
+        }
+    }
+
+    public static class LoginDtoUtils {
+
+        public static UserLoginDto createA() {
+            return UserLoginDto.builder()
+                    .nickname("romka")
+                    .password("qwertyuiop")
+                    .build();
+        }
+
+        public static UserLoginDto createB() {
+            return UserLoginDto.builder()
+                    .nickname("romka2")
+                    .password("qwertyuiop2")
+                    .build();
+        }
+
+        public static UserLoginDto createC() {
+            return UserLoginDto.builder()
+                    .nickname("romka3")
+                    .password("qwertyuiop3")
+                    .build();
+        }
+
+        public static UserLoginDto createUnknownUser() {
+            return UserLoginDto.builder()
+                    .nickname("c#")
+                    .password("microsoft")
                     .build();
         }
     }
