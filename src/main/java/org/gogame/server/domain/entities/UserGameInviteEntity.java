@@ -3,8 +3,6 @@ package org.gogame.server.domain.entities;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-
 @Data
 @AllArgsConstructor
 @NoArgsConstructor

@@ -12,6 +12,9 @@ import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 
@@ -52,6 +55,7 @@ public class UserProfileController {
                     .userId(id_about)
                     .bio("")
                     .build();
+
         }
 
         var userProfile = Pair.of(userInfo, userBio);
