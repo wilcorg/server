@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.*;
+import org.gogame.server.domain.entities.dto.UserInviteDto;
 import org.gogame.server.domain.entities.dto.UserLoginDto;
 import org.gogame.server.domain.entities.dto.UserRegisterDto;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -304,18 +305,57 @@ public class TestData {
         }
     }
 
-    public static String getJwtToken(MvcResult mvcResult) {
-        ObjectMapper objectMapper = new ObjectMapper();
+    public static class InviteDtoUtils {
 
-        JsonNode jsonNode;
-        try {
-            String responseContent = mvcResult.getResponse().getContentAsString();
-            jsonNode = objectMapper.readTree(responseContent);
-        } catch (Exception e) {
-            System.err.println("Unable do decode JSON");
-            return "";
+        public static UserInviteDto createA(final UserRepository userRepo) {
+            var userA = UserEntityUtils.createA();
+            var userB = UserEntityUtils.createB();
+
+            if (userRepo.findByNickname(userA.getNickname()).isEmpty()) {
+                userRepo.save(userA);
+            }
+            if (userRepo.findByNickname(userB.getNickname()).isEmpty()) {
+                userRepo.save(userB);
+            }
+
+            return UserInviteDto.builder()
+                    .userSenderId(userA.getUserId())
+                    .userReceiverId(userB.getUserId())
+                    .build();
         }
-        return "Bearer " + jsonNode.get("token").asText();
 
+        public static UserInviteDto createB(final UserRepository userRepo) {
+            var userA = UserEntityUtils.createA();
+            var userC = UserEntityUtils.createC();
+
+            if (userRepo.findByNickname(userA.getNickname()).isEmpty()) {
+                userRepo.save(userA);
+            }
+            if (userRepo.findByNickname(userC.getNickname()).isEmpty()) {
+                userRepo.save(userC);
+            }
+
+            return UserInviteDto.builder()
+                    .userSenderId(userC.getUserId())
+                    .userReceiverId(userA.getUserId())
+                    .build();
+        }
+
+        public static UserInviteDto createC(final UserRepository userRepo) {
+            var userB = UserEntityUtils.createB();
+            var userC = UserEntityUtils.createC();
+
+            if (userRepo.findByNickname(userB.getNickname()).isEmpty()) {
+                userRepo.save(userB);
+            }
+            if (userRepo.findByNickname(userC.getNickname()).isEmpty()) {
+                userRepo.save(userC);
+            }
+
+            return UserInviteDto.builder()
+                    .userSenderId(userB.getUserId())
+                    .userReceiverId(userC.getUserId())
+                    .build();
+        }
     }
 }
