@@ -15,9 +15,6 @@ import lombok.NoArgsConstructor;
 public class TokenEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    private Long tokenId;
-
     private String token;
 
     private Boolean revoked;

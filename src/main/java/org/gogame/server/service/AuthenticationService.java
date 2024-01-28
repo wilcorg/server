@@ -2,12 +2,14 @@ package org.gogame.server.service;
 
 import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.TokenEntity;
+import org.gogame.server.domain.entities.UserBioEntity;
 import org.gogame.server.domain.entities.dto.AuthResponseDto;
 import org.gogame.server.domain.entities.UserEntity;
 import org.gogame.server.domain.entities.dto.UserLoginDto;
 import org.gogame.server.domain.entities.dto.UserRegisterDto;
 import org.gogame.server.mappers.Mapper;
 import org.gogame.server.repositories.TokenRepository;
+import org.gogame.server.repositories.UserBioRepository;
 import org.gogame.server.repositories.UserRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -22,6 +24,7 @@ import java.sql.SQLException;
 public class AuthenticationService {
 
     private final UserRepository userRepo;
+    private final UserBioRepository userBioRepo;
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
     private final Mapper<UserRegisterDto, UserEntity> userRegisterMapper;
@@ -31,6 +34,7 @@ public class AuthenticationService {
         UserEntity registeredUser = userRegisterMapper.mapTo(dto);
         try {
             registeredUser = userRepo.save(registeredUser);
+            userBioRepo.save(UserBioEntity.builder().userId(registeredUser.getUserId()).bio("").build());
         } catch (DataIntegrityViolationException ex) {
             throw new SQLException("User with this nickname already exists");
         }
