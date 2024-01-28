@@ -26,4 +26,9 @@ public class UserFriendInviteEntity {
     @ManyToOne
     @PrimaryKeyJoinColumn
     private UserEntity userReceiver;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(name = "invite_status", nullable = false)
+    private UserInviteStatus status = UserInviteStatus.PENDING;
 }
