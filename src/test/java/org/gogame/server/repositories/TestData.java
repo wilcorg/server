@@ -1,8 +1,13 @@
 package org.gogame.server.repositories;
 
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.*;
 import org.gogame.server.domain.entities.dto.UserLoginDto;
 import org.gogame.server.domain.entities.dto.UserRegisterDto;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.web.servlet.MvcResult;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
@@ -297,5 +302,20 @@ public class TestData {
                     .password("microsoft")
                     .build();
         }
+    }
+
+    public static String getJwtToken(MvcResult mvcResult) {
+        ObjectMapper objectMapper = new ObjectMapper();
+
+        JsonNode jsonNode;
+        try {
+            String responseContent = mvcResult.getResponse().getContentAsString();
+            jsonNode = objectMapper.readTree(responseContent);
+        } catch (Exception e) {
+            System.err.println("Unable do decode JSON");
+            return "";
+        }
+        return "Bearer " + jsonNode.get("token").asText();
+
     }
 }
