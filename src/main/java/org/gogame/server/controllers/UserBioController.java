@@ -3,9 +3,9 @@ package org.gogame.server.controllers;
 import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.UserBioEntity;
 import org.gogame.server.domain.entities.dto.UserBioDto;
-import org.gogame.server.mappers.impl.UserBioMapper;
 import org.gogame.server.service.PermissionValidatorService;
 import org.gogame.server.service.UserBioService;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +21,7 @@ public class UserBioController {
 
     private final PermissionValidatorService validatorService;
 
-    private final UserBioMapper userBioMapper;
+    private final ModelMapper modelMapper;
 
     @GetMapping("/user/bio/{id}")
     public ResponseEntity<UserBioDto> getUserBio(@PathVariable Long id) {
@@ -32,7 +32,7 @@ public class UserBioController {
         } catch (SQLException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(userBioMapper.mapTo(userBio), HttpStatus.OK);
+        return new ResponseEntity<>(modelMapper.map(userBio, UserBioDto.class), HttpStatus.OK);
     }
 
     @PutMapping("/user/bio/{id}")
@@ -42,7 +42,7 @@ public class UserBioController {
         }
 
         try {
-            userBioService.setUserBio(userBioMapper.mapFrom(userBioDto));
+            userBioService.setUserBio(modelMapper.map(userBioDto, UserBioEntity.class));
         } catch (SQLException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
