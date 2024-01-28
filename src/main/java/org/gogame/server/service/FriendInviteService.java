@@ -3,7 +3,6 @@ package org.gogame.server.service;
 import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.UserFriendInviteEntity;
 import org.gogame.server.domain.entities.UserFriendshipEntity;
-import org.gogame.server.domain.entities.UserInviteStatus;
 import org.gogame.server.domain.entities.dto.UserInviteDto;
 import org.gogame.server.repositories.UserFriendInviteRepository;
 import org.gogame.server.repositories.UserFriendshipRepository;
@@ -35,7 +34,6 @@ public class FriendInviteService {
         var userFriendInviteEntity = UserFriendInviteEntity.builder()
                 .userSender(userRepo.findById(userInviteDto.getUserSenderId()).orElseThrow())
                 .userReceiver(userRepo.findById(userInviteDto.getUserReceiverId()).orElseThrow())
-                .status(UserInviteStatus.PENDING)
                 .build();
 
         userFriendInviteRepo.save(userFriendInviteEntity);

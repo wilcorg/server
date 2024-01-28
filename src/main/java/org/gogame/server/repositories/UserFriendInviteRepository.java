@@ -21,7 +21,6 @@ public interface UserFriendInviteRepository extends CrudRepository<UserFriendInv
             SELECT u
             FROM UserFriendInviteEntity u
             WHERE u.userReceiver.userId = :userId
-            AND u.status = 'PENDING'
     """)
     List<UserFriendInviteEntity> findAllPendingInvites(@Param("userId") Long userReceiverId);
 
@@ -30,7 +29,6 @@ public interface UserFriendInviteRepository extends CrudRepository<UserFriendInv
             FROM UserFriendInviteEntity u
             WHERE u.userSender.userId = :userSenderId
             AND u.userReceiver.userId = :userReceiverId
-            AND u.status = 'PENDING'
             """)
     Optional<UserFriendInviteEntity> findOnePendingInvite(@Param("userSenderId") Long userSenderId, @Param("userReceiverId") Long userReceiverId);
 }
