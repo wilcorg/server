@@ -2,6 +2,7 @@ package org.gogame.server.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.gogame.server.domain.entities.enums.GameAction;
 import org.hibernate.validator.constraints.Range;
 
 import java.sql.Timestamp;

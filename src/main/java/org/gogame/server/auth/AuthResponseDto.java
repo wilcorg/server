@@ -1,4 +1,4 @@
-package org.gogame.server.domain.entities.dto;
+package org.gogame.server.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,11 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GameDto {
+public class AuthResponseDto {
 
-    private Long gameId;
+    private Long userId;
 
-    private Long userWhiteId;
-
-    private Long userBlackId;
+    private String token;
 }

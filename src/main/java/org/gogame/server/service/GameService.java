@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.GameEntity;
 import org.gogame.server.domain.entities.UserEntity;
 import org.gogame.server.domain.entities.UserGameInviteEntity;
-import org.gogame.server.domain.entities.dto.UserInviteDto;
+import org.gogame.server.domain.entities.dto.user.UserInviteDto;
 import org.gogame.server.repositories.GameRepository;
 import org.gogame.server.repositories.UserGameInviteRepository;
 import org.gogame.server.repositories.UserRepository;

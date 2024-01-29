@@ -1,10 +1,10 @@
-package org.gogame.server.domain.entities.dto;
+package org.gogame.server.domain.entities.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.gogame.server.domain.entities.UserLobbyState;
+import org.gogame.server.domain.entities.enums.UserLobbyState;
 
 @Data
 @AllArgsConstructor

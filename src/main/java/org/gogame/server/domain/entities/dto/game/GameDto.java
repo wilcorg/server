@@ -1,4 +1,4 @@
-package org.gogame.server.domain.entities.dto;
+package org.gogame.server.domain.entities.dto.game;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,13 +9,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GameMoveDto {
-
-    private Long userId;
+public class GameDto {
 
     private Long gameId;
 
-    private Integer turnX;
+    private Long userWhiteId;
 
-    private Integer turnY;
+    private Long userBlackId;
 }

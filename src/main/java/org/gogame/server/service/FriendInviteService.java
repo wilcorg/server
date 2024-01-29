@@ -3,7 +3,7 @@ package org.gogame.server.service;
 import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.UserFriendInviteEntity;
 import org.gogame.server.domain.entities.UserFriendshipEntity;
-import org.gogame.server.domain.entities.dto.UserInviteDto;
+import org.gogame.server.domain.entities.dto.user.UserInviteDto;
 import org.gogame.server.repositories.UserFriendInviteRepository;
 import org.gogame.server.repositories.UserFriendshipRepository;
 import org.gogame.server.repositories.UserRepository;

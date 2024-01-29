@@ -1,6 +1,6 @@
 package org.gogame.server.repositories;
 
-import org.gogame.server.domain.entities.GameAction;
+import org.gogame.server.domain.entities.enums.GameAction;
 import org.gogame.server.domain.entities.GameJournalEntity;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

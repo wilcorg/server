@@ -1,24 +1,21 @@
-package org.gogame.server.domain.entities.dto;
+package org.gogame.server.domain.entities.dto.game;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.gogame.server.domain.entities.GameAction;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GameJournalDto {
+public class GameMessageDto {
 
     private Long gameId;
 
     private Long authorId;
 
-    private Integer turnX;
+    private String content;
 
-    private Integer turnY;
-
-    private GameAction action;
+    private String timestamp;
 }

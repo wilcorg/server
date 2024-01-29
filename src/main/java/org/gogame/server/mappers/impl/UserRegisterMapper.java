@@ -1,7 +1,7 @@
 package org.gogame.server.mappers.impl;
 
 import org.gogame.server.domain.entities.UserEntity;
-import org.gogame.server.domain.entities.dto.UserRegisterDto;
+import org.gogame.server.auth.UserRegisterDto;
 import org.gogame.server.mappers.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
