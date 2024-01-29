@@ -321,4 +321,79 @@ public class GameJournalControllerIntegrationTests {
         System.out.println(mvcResult.getResponse().getContentAsString());
     }
 
+    @Test
+    public void testThatLeaveReturns200() throws Exception {
+
+        UserRegisterDto regA = TestData.RegisterDtoUtils.createA();
+        MvcResult mvcAResult = ControllerUtils.registerUser(mockMvc, objectMapper, regA);
+
+        UserRegisterDto regB = TestData.RegisterDtoUtils.createB();
+        MvcResult mvcBResult = ControllerUtils.registerUser(mockMvc, objectMapper, regB);
+
+        UserInviteDto invite = UserInviteDto.builder()
+                .userSenderId(ControllerUtils.getUserId(mvcAResult))
+                .userReceiverId(ControllerUtils.getUserId(mvcBResult))
+                .build();
+
+        sendGameInvite(
+                invite,
+                ControllerUtils.getJwtToken(mvcAResult)
+        );
+
+        String inviteJson = objectMapper.writeValueAsString(invite);
+
+        String senderToken = ControllerUtils.getJwtToken(mvcBResult);
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/v1/game/invite/accept")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(inviteJson)
+                        .header("Authorization", ControllerUtils.getJwtToken(mvcBResult))
+        ).andExpect(
+                MockMvcResultMatchers.status().is(HttpStatus.OK.value())
+        );
+
+        mockMvc.perform(
+                MockMvcRequestBuilders.get("/api/v1/game/invite/fetch")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(inviteJson)
+                        .header("Authorization", senderToken)
+        ).andExpect(
+                MockMvcResultMatchers.status().is(HttpStatus.NOT_FOUND.value())
+        );
+
+        String moveJson = objectMapper.writeValueAsString(GameJournalDto.builder()
+                .gameId(1L)
+                .authorId(2L)
+                .turnX(5)
+                .turnY(5)
+                .action(GameAction.MOVE)
+                .build());
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(moveJson)
+                        .header("Authorization", senderToken)
+        ).andExpect(
+                MockMvcResultMatchers.status().is(HttpStatus.OK.value())
+        );
+
+        senderToken = ControllerUtils.getJwtToken(mvcAResult);
+        moveJson = objectMapper.writeValueAsString(GameJournalDto.builder()
+                .gameId(1L)
+                .authorId(1L)
+                .turnX(0)
+                .turnY(0)
+                .action(GameAction.LEAVE)
+                .build());
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(moveJson)
+                        .header("Authorization", senderToken)
+        ).andExpect(
+                MockMvcResultMatchers.status().is(HttpStatus.OK.value())
+        );
+    }
+
 }

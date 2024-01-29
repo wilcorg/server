@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.GameEntity;
 import org.gogame.server.domain.entities.GameJournalEntity;
 import org.gogame.server.domain.entities.dto.game.GameJournalDto;
+import org.gogame.server.domain.entities.enums.GameAction;
 import org.gogame.server.domain.entities.enums.StoneTypeEnum;
 import org.gogame.server.mappers.impl.GameJournalMapper;
 import org.gogame.server.repositories.GameJournalRepository;
@@ -51,11 +52,23 @@ public class GameMoveController {
             return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
         }
 
-        try {
-            gameMoveService.sendStone(request, stoneType);
-        } catch (Exception e) {
-            System.err.println("Error while parsing JSON\n");
-            return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+        GameAction requestAction = request.getAction();
+        switch (requestAction) {
+            case MOVE -> {
+                try {
+                    gameMoveService.sendStone(request, stoneType);
+                } catch (Exception e) {
+                    System.err.println("Error while parsing JSON\n");
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+            }
+            case LEAVE -> {
+                try {
+                    gameMoveService.leaveGame(request, stoneType);
+                } catch (Exception e) {
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+            }
         }
 
         return new ResponseEntity<>(HttpStatus.OK);

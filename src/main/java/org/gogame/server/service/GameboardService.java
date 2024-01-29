@@ -35,6 +35,9 @@ public class GameboardService {
     }
 
     public void setStone(Long gameId, int x, int y, StoneTypeEnum stoneType) {
+        if (getStone(gameId, x, y) != ' ') {
+            throw new IllegalArgumentException("Cell is not empty");
+        }
         GameboardJSON gameboardJSON = readGameboard(gameId);
         gameboardJSON.setStone(x, y, stoneType);
         saveGameboard(gameId, gameboardJSON);

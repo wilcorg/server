@@ -35,6 +35,7 @@ public class AuthenticationService {
         try {
             registeredUser = userRepo.save(registeredUser);
             userBioRepo.save(UserBioEntity.builder().userId(registeredUser.getUserId()).bio("").build());
+
         } catch (DataIntegrityViolationException ex) {
             throw new SQLException("User with this nickname already exists");
         }
