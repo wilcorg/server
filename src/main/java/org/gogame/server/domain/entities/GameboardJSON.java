@@ -1,11 +1,20 @@
 package org.gogame.server.domain.entities;
 
+import lombok.Getter;
+import lombok.Setter;
 import org.gogame.server.domain.entities.enums.StoneTypeEnum;
 
 import java.util.ArrayList;
 
 public class GameboardJSON {
+    @Getter
+    @Setter
     private ArrayList<ArrayList<Character>> gameboard;
+    @Getter
+    private Integer huntedByWhite = 0;
+    @Getter
+    private Integer huntedByBlack = 0;
+
     public GameboardJSON() {
         gameboard = new ArrayList<>();
         for (int i = 0; i < 19; i++) {
@@ -16,17 +25,12 @@ public class GameboardJSON {
         }
     }
 
-
-    // used for jackson ObjectMapper
-    @SuppressWarnings("unused")
-    public void setGameboard(ArrayList<ArrayList<Character>> gameboard) {
-        this.gameboard = gameboard;
+    public void incHuntedByWhite() {
+        this.huntedByWhite++;
     }
 
-    // used for jackson ObjectMapper
-    @SuppressWarnings("unused")
-    public ArrayList<ArrayList<Character>> getGameboard() {
-        return gameboard;
+    public void incHuntedByBlack() {
+        this.huntedByBlack++;
     }
 
     public Character getStone(int x, int y) {
@@ -38,8 +42,9 @@ public class GameboardJSON {
             gameboard.get(y).set(x, 'B');
         } else if (stoneType == StoneTypeEnum.WHITE) {
             gameboard.get(y).set(x, 'W');
-        } else {
+        } else if (stoneType == StoneTypeEnum.EMPTY) {
             gameboard.get(y).set(x, ' ');
         }
     }
+
 }

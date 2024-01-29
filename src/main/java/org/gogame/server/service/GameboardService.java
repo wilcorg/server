@@ -14,6 +14,7 @@ public class GameboardService {
 
     private final GameboardRepository gameboardRepo;
     private final ObjectMapper objectMapper;
+    private final MoveLogicService moveLogicService;
 
     private GameboardJSON readGameboard(Long gameId) {
         try {
@@ -38,9 +39,17 @@ public class GameboardService {
         if (getStone(gameId, x, y) != ' ') {
             throw new IllegalArgumentException("Cell is not empty");
         }
-        GameboardJSON gameboardJSON = readGameboard(gameId);
-        gameboardJSON.setStone(x, y, stoneType);
-        saveGameboard(gameId, gameboardJSON);
+        GameboardJSON tempGameboardJSON = readGameboard(gameId);
+        tempGameboardJSON.setStone(x, y, stoneType);
+
+        if (!moveLogicService.checkIfFriendStoneIsChoking(tempGameboardJSON, x, y, stoneType)) {
+            saveGameboard(gameId, tempGameboardJSON);
+        } else {
+            throw new IllegalArgumentException("");
+        }
+
+        tempGameboardJSON = moveLogicService.checkIfStoneCanChokeEnemy(tempGameboardJSON, stoneType);
+        saveGameboard(gameId, tempGameboardJSON);
     }
 
     public Character getStone(Long gameId, int x, int y) {
