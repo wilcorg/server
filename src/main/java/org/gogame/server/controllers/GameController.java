@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.GameEntity;
 import org.gogame.server.domain.entities.dto.game.GameDto;
 import org.gogame.server.domain.entities.dto.user.UserInviteDto;
+import org.gogame.server.domain.entities.dto.user.UserProfileDto;
 import org.gogame.server.service.GameService;
 import org.gogame.server.service.PermissionValidatorService;
 import org.springframework.http.HttpStatus;
@@ -107,5 +108,25 @@ public class GameController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(response);
+    }
+
+    @PostMapping("/{gameId}/winner/{userId}")
+    public ResponseEntity<?> setGameWinner (
+            @PathVariable Long gameId,
+            @PathVariable Long winnerId,
+            @RequestBody UserProfileDto myProfile,
+            @RequestHeader("Authorization") String token
+    ) {
+        if (!validatorService.validateUserId(myProfile.getUserId(), token)) {
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+
+        try {
+            service.setGameWinner(gameId, winnerId);
+        } catch (SQLException e) {
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+        }
+
+        return ResponseEntity.status(HttpStatus.OK).build();
     }
 }
