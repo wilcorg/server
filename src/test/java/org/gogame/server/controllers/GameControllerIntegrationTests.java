@@ -133,7 +133,7 @@ public class GameControllerIntegrationTests {
                         .header("Authorization", senderToken)
         ).andExpect(
                 MockMvcResultMatchers.status().is(HttpStatus.NOT_FOUND.value())
-        ).andReturn();
+        );
     }
 
     @Test

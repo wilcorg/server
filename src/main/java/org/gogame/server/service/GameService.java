@@ -1,11 +1,12 @@
 package org.gogame.server.service;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
-import org.gogame.server.domain.entities.GameEntity;
-import org.gogame.server.domain.entities.UserEntity;
-import org.gogame.server.domain.entities.UserGameInviteEntity;
+import org.gogame.server.domain.entities.*;
 import org.gogame.server.domain.entities.dto.user.UserInviteDto;
 import org.gogame.server.repositories.GameRepository;
+import org.gogame.server.repositories.GameboardRepository;
 import org.gogame.server.repositories.UserGameInviteRepository;
 import org.gogame.server.repositories.UserRepository;
 import org.modelmapper.ModelMapper;
@@ -16,7 +17,6 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 @Service
 @RequiredArgsConstructor
@@ -26,8 +26,8 @@ public class GameService {
     private final UserRepository userRepo;
     private final UserGameInviteRepository userGameInviteRepo;
     private final ModelMapper modelMapper;
-
-    private Random random;
+    private final GameboardRepository gameboardRepo;
+    private final ObjectMapper objectMapper;
 
     public UserInviteDto sendGameInvite(UserInviteDto userInviteDto) throws SQLException {
 
@@ -55,16 +55,19 @@ public class GameService {
         var sender = users.getFirst();
         var receiver = users.getSecond();
 
-        boolean colorPicker = nextBoolean();
-
         var game = GameEntity.builder()
-                .userBlack(colorPicker ? sender : receiver)
-                .userWhite(colorPicker ? receiver : sender)
+                .userBlack(sender)
+                .userWhite(receiver)
                 .build();
 
         try {
             gameRepo.save(game);
-        } catch (DataIntegrityViolationException e) {
+            GameboardEntity gameboardEntity = GameboardEntity.builder()
+                    .gameId(game.getGameId())
+                    .gameboard(objectMapper.writeValueAsString(new GameboardJSON()))
+                    .build();
+            gameboardRepo.save(gameboardEntity);
+        } catch (DataIntegrityViolationException  | JsonProcessingException e) {
             throw new SQLException("Failed to save new game");
         }
 
@@ -117,13 +120,6 @@ public class GameService {
         }
 
         return Pair.of(sender.get(), receiver.get());
-    }
-
-    private boolean nextBoolean() {
-        if (random == null) {
-            random = new Random();
-        }
-        return random.nextBoolean();
     }
 
 }

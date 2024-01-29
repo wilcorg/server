@@ -17,5 +17,16 @@ public interface GameRepository extends CrudRepository<GameEntity, Long> {
             )
             AND g.winner.userId IS NULL
             """)
-    Optional<GameEntity> findCurrentGame(@Param("user_a_id") Long userAId, @Param("user_b_id") Long userBId);
+    GameEntity findCurrentGame(@Param("user_a_id") Long userAId, @Param("user_b_id") Long userBId);
+
+    @Query(value = """
+            SELECT DISTINCT g
+            FROM GameEntity g
+            WHERE (
+                (g.userWhite.userId = :user_a_id)
+                OR (g.userBlack.userId = :user_a_id)
+            )
+            AND g.winner.userId IS NULL
+            """)
+    GameEntity findCurrentGame(@Param("user_a_id") Long userAId);
 }
