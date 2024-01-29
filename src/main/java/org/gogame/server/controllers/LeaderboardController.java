@@ -1,15 +1,9 @@
 package org.gogame.server.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.gogame.server.mappers.Mapper;
-import org.gogame.server.domain.entities.UserBioEntity;
-import org.gogame.server.domain.entities.UserEntity;
 import org.gogame.server.domain.entities.dto.user.UserProfileDto;
 import org.gogame.server.service.LeaderboardService;
 import org.gogame.server.service.PermissionValidatorService;
-import org.gogame.server.service.UserBioService;
-import org.gogame.server.service.UserProfileService;
-import org.springframework.data.util.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

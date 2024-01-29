@@ -22,7 +22,7 @@ public class FriendInviteController {
     private final UserRepository userRepo;
 
     @PostMapping("/send")
-    public ResponseEntity<UserInviteDto> sendFriendInvite(
+    public ResponseEntity<?> sendFriendInvite(
             @RequestBody UserInviteDto request,
             @RequestHeader("Authorization") String token
     ) {
@@ -62,7 +62,7 @@ public class FriendInviteController {
     }
 
     @PutMapping("/accept")
-    public ResponseEntity<UserInviteDto> acceptFriendInvite(
+    public ResponseEntity<?> acceptFriendInvite(
             @RequestBody UserInviteDto request,
             @RequestHeader("Authorization") String token
     ) {
@@ -80,7 +80,7 @@ public class FriendInviteController {
 
 
     @PutMapping("/reject")
-    public ResponseEntity<UserInviteDto> rejectFriendInvite(
+    public ResponseEntity<?> rejectFriendInvite(
             @RequestBody UserInviteDto request,
             @RequestHeader("Authorization") String token
     ) {

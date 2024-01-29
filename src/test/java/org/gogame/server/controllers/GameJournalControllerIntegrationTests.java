@@ -87,7 +87,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
@@ -104,7 +104,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
@@ -121,7 +121,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
@@ -179,7 +179,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
@@ -196,7 +196,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
@@ -213,7 +213,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
@@ -284,7 +284,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
@@ -301,7 +301,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
@@ -311,7 +311,7 @@ public class GameJournalControllerIntegrationTests {
 
         senderToken = ControllerUtils.getJwtToken(mvcAResult);
         var mvcResult = mockMvc.perform(
-                MockMvcRequestBuilders.get("/api/v1/game/move/fetch")
+                MockMvcRequestBuilders.get("/api/v1/game/turn/fetch")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", senderToken)
         ).andExpect(
@@ -370,7 +370,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
@@ -387,7 +387,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
@@ -403,7 +403,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
@@ -420,7 +420,7 @@ public class GameJournalControllerIntegrationTests {
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
-                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                MockMvcRequestBuilders.post("/api/v1/game/turn/send")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)
