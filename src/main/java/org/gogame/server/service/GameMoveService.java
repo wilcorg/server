@@ -3,7 +3,6 @@ package org.gogame.server.service;
 import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.GameEntity;
 import org.gogame.server.domain.entities.dto.game.GameJournalDto;
-import org.gogame.server.domain.entities.enums.GameAction;
 import org.gogame.server.domain.entities.enums.StoneTypeEnum;
 import org.gogame.server.mappers.impl.GameJournalMapper;
 import org.gogame.server.repositories.GameJournalRepository;
@@ -35,7 +34,7 @@ public class GameMoveService {
         }
     }
 
-    public void leaveGame(GameJournalDto gameJournalDto, StoneTypeEnum stoneType) {
+    public void leaveGame(GameJournalDto gameJournalDto) {
         try {
             var gameEntity = gameRepo.findCurrentGame(gameJournalDto.getAuthorId());
             if (gameEntity.getUserWhite().getUserId().equals(gameJournalDto.getAuthorId())) {

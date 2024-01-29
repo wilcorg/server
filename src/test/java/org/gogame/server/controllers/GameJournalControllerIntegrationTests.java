@@ -395,5 +395,4 @@ public class GameJournalControllerIntegrationTests {
                 MockMvcResultMatchers.status().is(HttpStatus.OK.value())
         );
     }
-
 }

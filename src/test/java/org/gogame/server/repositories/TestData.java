@@ -169,7 +169,7 @@ public class TestData {
             }
 
             return LeaderboardEntity.builder()
-                    .userId(userA.getUserId())
+                    .user(userA)
                     .score(666L)
                     .build();
         }
@@ -183,7 +183,7 @@ public class TestData {
             }
 
             return LeaderboardEntity.builder()
-                    .userId(userB.getUserId())
+                    .user(userB)
                     .score(145L)
                     .build();
         }
@@ -197,7 +197,7 @@ public class TestData {
             }
 
             return LeaderboardEntity.builder()
-                    .userId(userC.getUserId())
+                    .user(userC)
                     .score(110L)
                     .build();
         }

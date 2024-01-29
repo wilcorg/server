@@ -64,7 +64,7 @@ public class GameMoveController {
             }
             case LEAVE -> {
                 try {
-                    gameMoveService.leaveGame(request, stoneType);
+                    gameMoveService.leaveGame(request);
                 } catch (Exception e) {
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }

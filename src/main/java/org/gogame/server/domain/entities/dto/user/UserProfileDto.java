@@ -15,11 +15,14 @@ public class UserProfileDto {
 
     private String nickname;
 
-    private Long score;
+    @Builder.Default
+    private Long score = 0L;
 
-    private Boolean isFriend;
+    @Builder.Default
+    private Boolean isFriend = false;
 
     private String bio;
 
-    private Float winsPerLosses;
+    @Builder.Default
+    private Float winsPerLosses = 0.0f;
 }

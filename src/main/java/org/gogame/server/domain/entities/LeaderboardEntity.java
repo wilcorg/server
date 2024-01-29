@@ -14,9 +14,16 @@ import org.hibernate.validator.constraints.Range;
 public class LeaderboardEntity {
 
     @Id
-    private Long userId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "leaderboard_stats_id", nullable = false, unique = true)
+    private Long leaderboardId;
 
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private UserEntity user;
+
+    @Builder.Default
     @Range(min = 0)
     @ColumnDefault("0")
-    private Long score;
+    private Long score = 0L;
 }

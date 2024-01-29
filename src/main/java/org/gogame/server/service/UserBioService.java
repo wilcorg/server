@@ -19,7 +19,7 @@ public class UserBioService {
     public UserBioEntity getUserBio(Long userId) throws SQLException {
 
         try {
-            var result = userBioRepo.findById(userId);
+            var result = userBioRepo.findByUserId(userId);
             return result.orElseThrow(() -> new SQLException("User bio not found"));
         } catch (JDBCException ex) {
             throw new SQLException(ex);
