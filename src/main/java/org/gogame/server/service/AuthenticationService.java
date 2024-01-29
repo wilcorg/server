@@ -1,16 +1,13 @@
 package org.gogame.server.service;
 
 import lombok.RequiredArgsConstructor;
-import org.gogame.server.domain.entities.TokenEntity;
-import org.gogame.server.domain.entities.UserBioEntity;
+import org.gogame.server.domain.entities.*;
 import org.gogame.server.auth.AuthResponseDto;
-import org.gogame.server.domain.entities.UserEntity;
 import org.gogame.server.auth.UserLoginDto;
 import org.gogame.server.auth.UserRegisterDto;
+import org.gogame.server.domain.entities.enums.UserLobbyState;
 import org.gogame.server.mappers.Mapper;
-import org.gogame.server.repositories.TokenRepository;
-import org.gogame.server.repositories.UserBioRepository;
-import org.gogame.server.repositories.UserRepository;
+import org.gogame.server.repositories.*;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,6 +22,9 @@ public class AuthenticationService {
 
     private final UserRepository userRepo;
     private final UserBioRepository userBioRepo;
+    private final LeaderboardRepository leaderboardRepo;
+    private final UserLobbyRepository userLobbyRepo;
+    private final UserStatsRepository userStatsRepo;
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
     private final Mapper<UserRegisterDto, UserEntity> userRegisterMapper;
@@ -35,6 +35,9 @@ public class AuthenticationService {
         try {
             registeredUser = userRepo.save(registeredUser);
             userBioRepo.save(UserBioEntity.builder().user(registeredUser).bio("").build());
+            leaderboardRepo.save(LeaderboardEntity.builder().user(registeredUser).score(0L).build());
+            userLobbyRepo.save(UserLobbyEntity.builder().user(registeredUser).userLobbyState(UserLobbyState.OFFLINE).build());
+            userStatsRepo.save(UserStatsEntity.builder().user(registeredUser).gamePlayed(0L).gameWon(0L).gameLost(0L).build());
         } catch (DataIntegrityViolationException ex) {
             throw new SQLException("User with this nickname already exists");
         }
