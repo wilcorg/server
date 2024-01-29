@@ -108,6 +108,28 @@ public class GameService {
         return inviteDtos;
     }
 
+    public GameEntity getCurrentGame(Long userId) {
+        return gameRepo.findCurrentGame(userId);
+    }
+
+
+    public void setGameWinner(Long gameId, Long userId) throws SQLException {
+        var game = gameRepo.findById(gameId);
+        if (game.isEmpty()) {
+            throw new SQLException("Game doesn't exist");
+        }
+        var winner = userRepo.findById(userId);
+        if (winner.isEmpty()) {
+            throw new SQLException("User doesn't exist");
+        }
+        game.get().setWinner(winner.get());
+        try {
+            gameRepo.save(game.get());
+        } catch (DataIntegrityViolationException e) {
+            throw new SQLException("Failed to set winner id");
+        }
+    }
+
     private Pair<UserEntity, UserEntity> getUsers(UserInviteDto userInviteDto) throws SQLException {
         var sender = userRepo.findById(userInviteDto.getUserSenderId());
         var receiver = userRepo.findById(userInviteDto.getUserReceiverId());
