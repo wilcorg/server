@@ -62,8 +62,8 @@ public class UserProfileControllerIntegrationTests {
                 MockMvcRequestBuilders.get("/api/v1/user/profile")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header("Authorization", TestData.getJwtToken(mvcResult))
-                        .param("id_author", "2")
-                        .param("id_about", "1")
+                        .param("idAuthor", "2")
+                        .param("idAbout", "1")
         ).andExpect(
                 MockMvcResultMatchers.status().is(HttpStatus.OK.value())
         );

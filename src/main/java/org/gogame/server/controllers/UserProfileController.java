@@ -31,28 +31,28 @@ public class UserProfileController {
     private final Mapper<Pair<UserEntity, UserBioEntity>, UserProfileDto> userProfileMapper;
 
     @GetMapping("/user/profile")
-    public ResponseEntity<UserProfileDto> getUserInfo(@RequestParam Long id_author,
-                                                      @RequestParam Long id_about,
+    public ResponseEntity<UserProfileDto> getUserInfo(@RequestParam Long idAuthor,
+                                                      @RequestParam Long idAbout,
                                                       @RequestHeader("Authorization") String token) {
 
 
-        if (!validatorService.validateUserId(id_author, token)) {
+        if (!validatorService.validateUserId(idAuthor, token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
         UserEntity userInfo;
         try {
-            userInfo = userProfileService.getUserInfo(id_about);
+            userInfo = userProfileService.getUserInfo(idAbout);
         } catch (SQLException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
         UserBioEntity userBio;
         try {
-            userBio = userBioService.getUserBio(id_about);
+            userBio = userBioService.getUserBio(idAbout);
         } catch (SQLException ex) {
             userBio = UserBioEntity.builder()
-                    .userId(id_about)
+                    .userId(idAbout)
                     .bio("")
                     .build();
 
