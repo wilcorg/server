@@ -322,7 +322,7 @@ public class GameJournalControllerIntegrationTests {
     }
 
     @Test
-    public void testThatLeaveReturns200() throws Exception {
+    public void testStoneChocking() throws Exception {
 
         UserRegisterDto regA = TestData.RegisterDtoUtils.createA();
         MvcResult mvcAResult = ControllerUtils.registerUser(mockMvc, objectMapper, regA);
@@ -365,8 +365,8 @@ public class GameJournalControllerIntegrationTests {
         String moveJson = objectMapper.writeValueAsString(GameJournalDto.builder()
                 .gameId(1L)
                 .authorId(2L)
-                .turnX(5)
-                .turnY(5)
+                .turnX(0)
+                .turnY(0)
                 .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
@@ -383,8 +383,41 @@ public class GameJournalControllerIntegrationTests {
                 .gameId(1L)
                 .authorId(1L)
                 .turnX(0)
+                .turnY(1)
+                .action(GameAction.MOVE)
+                .build());
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(moveJson)
+                        .header("Authorization", senderToken)
+        ).andExpect(
+                MockMvcResultMatchers.status().is(HttpStatus.OK.value())
+        );
+
+        moveJson = objectMapper.writeValueAsString(GameJournalDto.builder()
+                .gameId(1L)
+                .authorId(2L)
+                .turnX(1)
+                .turnY(1)
+                .action(GameAction.MOVE)
+                .build());
+        mockMvc.perform(
+                MockMvcRequestBuilders.post("/api/v1/game/move/send")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(moveJson)
+                        .header("Authorization", senderToken)
+        ).andExpect(
+                MockMvcResultMatchers.status().is(HttpStatus.OK.value())
+        );
+
+        senderToken = ControllerUtils.getJwtToken(mvcAResult);
+        moveJson = objectMapper.writeValueAsString(GameJournalDto.builder()
+                .gameId(1L)
+                .authorId(1L)
+                .turnX(1)
                 .turnY(0)
-                .action(GameAction.LEAVE)
+                .action(GameAction.MOVE)
                 .build());
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/v1/game/move/send")

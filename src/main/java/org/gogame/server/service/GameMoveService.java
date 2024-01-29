@@ -21,13 +21,16 @@ public class GameMoveService {
     public void sendStone(GameJournalDto gameJournalDto, StoneTypeEnum stoneType) {
         try {
 
-            gameboardService.setStone(
+            var gameboardJSON = gameboardService.setStone(
                     gameJournalDto.getGameId(),
                     gameJournalDto.getTurnX(),
                     gameJournalDto.getTurnY(),
                     stoneType);
 
-            gameJournalRepo.save(gameJournalMapper.mapFrom(gameJournalDto));
+            var gameJournalEntity = gameJournalMapper.mapFrom(gameJournalDto);
+            gameJournalEntity.setHuntedByWhite(gameboardJSON.getHuntedByWhite());
+            gameJournalEntity.setHuntedByBlack(gameboardJSON.getHuntedByBlack());
+            gameJournalRepo.save(gameJournalEntity);
 
         } catch (NullPointerException | IllegalArgumentException e) {
             throw new NullPointerException("Gameboard not found");

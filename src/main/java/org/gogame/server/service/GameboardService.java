@@ -35,7 +35,7 @@ public class GameboardService {
         }
     }
 
-    public void setStone(Long gameId, int x, int y, StoneTypeEnum stoneType) {
+    public GameboardJSON setStone(Long gameId, int x, int y, StoneTypeEnum stoneType) {
         if (getStone(gameId, x, y) != ' ') {
             throw new IllegalArgumentException("Cell is not empty");
         }
@@ -50,6 +50,7 @@ public class GameboardService {
 
         tempGameboardJSON = moveLogicService.checkIfStoneCanChokeEnemy(tempGameboardJSON, stoneType);
         saveGameboard(gameId, tempGameboardJSON);
+        return tempGameboardJSON;
     }
 
     public Character getStone(Long gameId, int x, int y) {
