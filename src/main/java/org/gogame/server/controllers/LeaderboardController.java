@@ -5,6 +5,7 @@ import org.gogame.server.mappers.Mapper;
 import org.gogame.server.domain.entities.UserBioEntity;
 import org.gogame.server.domain.entities.UserEntity;
 import org.gogame.server.domain.entities.dto.user.UserProfileDto;
+import org.gogame.server.service.LeaderboardService;
 import org.gogame.server.service.PermissionValidatorService;
 import org.gogame.server.service.UserBioService;
 import org.gogame.server.service.UserProfileService;
@@ -17,49 +18,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
+import java.util.List;
 
 
 @RestController
 @RequestMapping("/api/v1")
 @RequiredArgsConstructor
-public class UserProfileController {
+public class LeaderboardController {
 
-    private final UserProfileService userProfileService;
-    private final UserBioService userBioService;
+    private final LeaderboardService leaderboardService;
     private final PermissionValidatorService validatorService;
 
-    private final Mapper<Pair<UserEntity, UserBioEntity>, UserProfileDto> userProfileMapper;
+    @GetMapping("/leaderboard/{id}")
+    public ResponseEntity<List<UserProfileDto>> getLeaderboard(
+            @PathVariable Long id,
+            @RequestHeader("Authorization") String token
+    ) {
 
-    @GetMapping("/user/profile")
-    public ResponseEntity<UserProfileDto> getUserInfo(@RequestParam Long idAuthor,
-                                                      @RequestParam Long idAbout,
-                                                      @RequestHeader("Authorization") String token) {
-
-
-        if (!validatorService.validateUserId(idAuthor, token)) {
+        if (!validatorService.validateUserId(id, token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        UserEntity userInfo;
+        List<UserProfileDto> leaderboard;
         try {
-            userInfo = userProfileService.getUserInfo(idAbout);
+            leaderboard = leaderboardService.getLeaderboard(id);
         } catch (SQLException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        UserBioEntity userBio;
-        try {
-            userBio = userBioService.getUserBio(idAbout);
-        } catch (SQLException ex) {
-            userBio = UserBioEntity.builder()
-                    .user(userInfo)
-                    .bio("")
-                    .build();
-
-        }
-
-        var userProfile = Pair.of(userInfo, userBio);
-
-        return new ResponseEntity<>(userProfileMapper.mapTo(userProfile), HttpStatus.OK);
+        return new ResponseEntity<>(leaderboard, HttpStatus.OK);
     }
 }

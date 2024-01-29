@@ -1,13 +1,11 @@
 package org.gogame.server.domain.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 @Data
 @AllArgsConstructor
@@ -18,8 +16,15 @@ import lombok.NoArgsConstructor;
 public class UserBioEntity {
 
     @Id
-    private Long userId;
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Column(name = "user_bio_id", nullable = false, unique = true)
+    private Long userBioId;
 
+    @ManyToOne
+    @PrimaryKeyJoinColumn
+    private UserEntity user;
+
+    @Builder.Default
     @Column(length = 2048)
-    private String bio;
+    private String bio = "";
 }
