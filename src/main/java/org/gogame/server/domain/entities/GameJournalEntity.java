@@ -42,4 +42,14 @@ public class GameJournalEntity {
 
     @Column(name = "turn_date", nullable = false)
     private Timestamp turnDate;
+
+    @Range(min = 0)
+    @Column(name = "hunted_by_white")
+    @Builder.Default
+    private Integer huntedByWhite = 0;
+
+    @Range(min = 0)
+    @Column(name = "hunted_by_black")
+    @Builder.Default
+    private Integer huntedByBlack = 0;
 }
