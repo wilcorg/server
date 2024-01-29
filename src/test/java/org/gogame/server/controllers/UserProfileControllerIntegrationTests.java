@@ -1,8 +1,8 @@
 package org.gogame.server.controllers;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.gogame.server.domain.entities.dto.UserBioDto;
-import org.gogame.server.domain.entities.dto.UserRegisterDto;
+import org.gogame.server.domain.entities.dto.user.UserBioDto;
+import org.gogame.server.auth.UserRegisterDto;
 import org.gogame.server.repositories.TestData;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;

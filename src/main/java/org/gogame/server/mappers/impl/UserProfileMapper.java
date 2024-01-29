@@ -2,7 +2,7 @@ package org.gogame.server.mappers.impl;
 
 import org.gogame.server.domain.entities.UserBioEntity;
 import org.gogame.server.domain.entities.UserEntity;
-import org.gogame.server.domain.entities.dto.UserProfileDto;
+import org.gogame.server.domain.entities.dto.user.UserProfileDto;
 import org.gogame.server.mappers.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.data.util.Pair;

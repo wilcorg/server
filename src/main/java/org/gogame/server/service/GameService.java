@@ -4,8 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.GameEntity;
 import org.gogame.server.domain.entities.UserEntity;
 import org.gogame.server.domain.entities.UserGameInviteEntity;
-import org.gogame.server.domain.entities.UserInviteStatus;
-import org.gogame.server.domain.entities.dto.UserInviteDto;
+import org.gogame.server.domain.entities.dto.user.UserInviteDto;
 import org.gogame.server.repositories.GameRepository;
 import org.gogame.server.repositories.UserGameInviteRepository;
 import org.gogame.server.repositories.UserRepository;
@@ -69,7 +68,7 @@ public class GameService {
             throw new SQLException("Failed to save new game");
         }
 
-        var invite = userGameInviteRepo.findByUserIds(sender.getUserId(), receiver.getUserId()).get(0);
+        var invite = userGameInviteRepo.findByUserIds(sender.getUserId(), receiver.getUserId()).getFirst();
 
         userGameInviteRepo.delete(invite);
 
@@ -82,7 +81,7 @@ public class GameService {
         var sender = users.getFirst();
         var receiver = users.getSecond();
 
-        var invite = userGameInviteRepo.findByUserIds(sender.getUserId(), receiver.getUserId()).get(0);
+        var invite = userGameInviteRepo.findByUserIds(sender.getUserId(), receiver.getUserId()).getFirst();
 
         userGameInviteRepo.delete(invite);
 

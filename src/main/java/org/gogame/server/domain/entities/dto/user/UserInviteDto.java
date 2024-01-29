@@ -1,4 +1,4 @@
-package org.gogame.server.domain.entities.dto;
+package org.gogame.server.domain.entities.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,9 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class UserLoginDto {
+public class UserInviteDto {
 
-    private String nickname;
+    private Long userSenderId;
 
-    private String password;  // argon2 user for hashing
+    private Long userReceiverId;
 }

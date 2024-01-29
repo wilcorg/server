@@ -1,9 +1,9 @@
 package org.gogame.server.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.gogame.server.domain.entities.dto.AuthResponseDto;
-import org.gogame.server.domain.entities.dto.UserLoginDto;
-import org.gogame.server.domain.entities.dto.UserRegisterDto;
+import org.gogame.server.auth.AuthResponseDto;
+import org.gogame.server.auth.UserLoginDto;
+import org.gogame.server.auth.UserRegisterDto;
 import org.gogame.server.service.AuthenticationService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

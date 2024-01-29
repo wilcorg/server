@@ -1,4 +1,4 @@
-package org.gogame.server.domain.entities.dto;
+package org.gogame.server.domain.entities.dto.game;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,13 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GameMessageDto {
+public class GameJournalPreviewDto {
 
     private Long gameId;
-
-    private Long authorId;
-
-    private String content;
 
     private String timestamp;
 }

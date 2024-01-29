@@ -1,4 +1,4 @@
-package org.gogame.server.domain.entities.dto;
+package org.gogame.server.domain.entities.dto.user;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -9,13 +9,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GameMoveDto {
+public class LeaderboardDto {
 
     private Long userId;
 
-    private Long gameId;
-
-    private Integer turnX;
-
-    private Integer turnY;
+    private Long userScore;
 }

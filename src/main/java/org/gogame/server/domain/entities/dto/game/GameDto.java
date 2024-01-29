@@ -1,20 +1,19 @@
-package org.gogame.server.domain.entities.dto;
+package org.gogame.server.domain.entities.dto.game;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.gogame.server.domain.entities.GameAction;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class GameActionDto {
-
-    private Long userId;
+public class GameDto {
 
     private Long gameId;
 
-    private GameAction action;
+    private Long userWhiteId;
+
+    private Long userBlackId;
 }

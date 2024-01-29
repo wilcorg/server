@@ -2,7 +2,7 @@ package org.gogame.server.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.UserBioEntity;
-import org.gogame.server.domain.entities.dto.UserBioDto;
+import org.gogame.server.domain.entities.dto.user.UserBioDto;
 import org.gogame.server.service.PermissionValidatorService;
 import org.gogame.server.service.UserBioService;
 import org.modelmapper.ModelMapper;

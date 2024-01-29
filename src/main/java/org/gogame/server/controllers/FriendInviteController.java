@@ -1,17 +1,14 @@
 package org.gogame.server.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.gogame.server.domain.entities.dto.UserInviteDto;
+import org.gogame.server.domain.entities.dto.user.UserInviteDto;
 import org.gogame.server.repositories.UserRepository;
 import org.gogame.server.service.FriendInviteService;
 import org.gogame.server.service.PermissionValidatorService;
-import org.hibernate.JDBCException;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.SQLException;
 import java.util.List;
 
 @RestController
