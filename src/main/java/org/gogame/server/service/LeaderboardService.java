@@ -1,9 +1,6 @@
 package org.gogame.server.service;
 
 import lombok.RequiredArgsConstructor;
-import org.gogame.server.domain.entities.LeaderboardEntity;
-import org.gogame.server.domain.entities.UserBioEntity;
-import org.gogame.server.domain.entities.UserEntity;
 import org.gogame.server.domain.entities.dto.user.UserProfileDto;
 import org.gogame.server.repositories.*;
 import org.springframework.stereotype.Service;
@@ -50,12 +47,17 @@ public class LeaderboardService {
             var userStats = userStatsEntity.get();
             var winsPerLosses = userStats.getGameWon().floatValue() / userStats.getGameLost().floatValue();
 
+            if (userStats.getGameLost().intValue() == 0) {
+                winsPerLosses = 0.0f;
+            }
+
             var friendshipEntity = userFriendshipRepo.findByUserIds(userId, currentUserId);
 
             var isFriend = friendshipEntity.isPresent();
 
             ret.add(
                     UserProfileDto.builder()
+                            .userId(currentUserId)
                             .nickname(nickname)
                             .bio(bio)
                             .score(score)
