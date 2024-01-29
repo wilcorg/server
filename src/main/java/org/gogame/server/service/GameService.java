@@ -108,6 +108,10 @@ public class GameService {
         return inviteDtos;
     }
 
+    public GameEntity getCurrentGame(Long userId) {
+        return gameRepo.findCurrentGame(userId);
+    }
+
     private Pair<UserEntity, UserEntity> getUsers(UserInviteDto userInviteDto) throws SQLException {
         var sender = userRepo.findById(userInviteDto.getUserSenderId());
         var receiver = userRepo.findById(userInviteDto.getUserReceiverId());
