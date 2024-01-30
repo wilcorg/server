@@ -7,6 +7,7 @@ import org.gogame.server.domain.entities.dto.game.GameDto;
 import org.gogame.server.domain.entities.dto.game.GameJournalDto;
 import org.gogame.server.domain.entities.dto.user.UserProfileDto;
 import org.gogame.server.domain.entities.enums.GameAction;
+import org.gogame.server.domain.entities.enums.GameState;
 import org.gogame.server.domain.entities.enums.StoneTypeEnum;
 import org.gogame.server.mappers.impl.GameJournalMapper;
 import org.gogame.server.repositories.GameJournalRepository;
@@ -52,33 +53,58 @@ public class GameController {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
 
-        StoneTypeEnum stoneType;
-        if (request.getAuthorId().equals(gameEntity.getUserWhite().getUserId())) {
-            stoneType = StoneTypeEnum.WHITE;
-        } else {
-            stoneType = StoneTypeEnum.BLACK;
-        }
-
-        if (!gameMoveService.isOpponentMove(stoneType, request)) {
-            return new ResponseEntity<>(HttpStatus.ALREADY_REPORTED);
-        }
+        GameState state = gameEntity.getState();
 
         GameAction requestAction = request.getAction();
         switch (requestAction) {
             case MOVE -> {
+                if (state != GameState.PLAYING) {
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
                 try {
+                    StoneTypeEnum stoneType;
+                    if (request.getAuthorId().equals(gameEntity.getUserWhite().getUserId())) {
+                        stoneType = StoneTypeEnum.WHITE;
+                    } else {
+                        stoneType = StoneTypeEnum.BLACK;
+                    }
+
+                    if (!gameMoveService.isOpponentMove(stoneType, request)) {
+                        return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                    }
+
                     gameMoveService.sendStone(request, stoneType);
                 } catch (Exception e) {
                     System.err.println("Error while parsing JSON\n");
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
             }
-            case LEAVE -> {
+            case FORFEIT -> {
                 try {
                     gameMoveService.leaveGame(request);
                 } catch (Exception e) {
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
+            }
+            case PASS -> {
+                if (state != GameState.PLAYING && state != GameState.ONE_PASSED) {
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+
+                try {
+                    gameMoveService.pass(request);
+                } catch (Exception e) {
+                    return new ResponseEntity<>(HttpStatus.FORBIDDEN);
+                }
+            }
+            case I_WON -> {
+
+            }
+            case I_LOST -> {
+
+            }
+            case RESUME -> {
+
             }
         }
 
