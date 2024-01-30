@@ -3,11 +3,15 @@ package org.gogame.server.service;
 import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.GameEntity;
 import org.gogame.server.domain.entities.dto.game.GameJournalDto;
+import org.gogame.server.domain.entities.enums.GameAction;
+import org.gogame.server.domain.entities.enums.GameState;
 import org.gogame.server.domain.entities.enums.StoneTypeEnum;
 import org.gogame.server.mappers.impl.GameJournalMapper;
 import org.gogame.server.repositories.GameJournalRepository;
 import org.gogame.server.repositories.GameRepository;
 import org.springframework.stereotype.Service;
+
+import java.sql.SQLException;
 
 @Service
 @RequiredArgsConstructor
@@ -19,8 +23,10 @@ public class GameMoveService {
     private final GameboardService gameboardService;
 
     public void sendStone(GameJournalDto gameJournalDto, StoneTypeEnum stoneType) {
+        if (gameJournalDto.getAction() != GameAction.MOVE) {
+            throw new IllegalArgumentException();
+        }
         try {
-
             var gameboardJSON = gameboardService.setStone(
                     gameJournalDto.getGameId(),
                     gameJournalDto.getTurnX(),
@@ -38,6 +44,10 @@ public class GameMoveService {
     }
 
     public void leaveGame(GameJournalDto gameJournalDto) {
+        if (gameJournalDto.getAction() != GameAction.FORFEIT) {
+            throw new IllegalArgumentException();
+        }
+
         try {
             var gameEntity = gameRepo.findCurrentGame(gameJournalDto.getAuthorId()).orElseThrow();
             if (gameEntity.getUserWhite().getUserId().equals(gameJournalDto.getAuthorId())) {
@@ -71,6 +81,30 @@ public class GameMoveService {
         } else {
             return stoneType == StoneTypeEnum.WHITE;
         }
+    }
 
+    public void pass(GameJournalDto gameJournalDto) throws SQLException {
+        if (gameJournalDto.getAction() != GameAction.PASS) {
+            throw new IllegalArgumentException();
+        }
+
+        var gameOpt = gameRepo.findById(gameJournalDto.getGameId());
+        if (gameOpt.isEmpty()) {
+            throw new SQLException("Game doesn't exist");
+        }
+        var game = gameOpt.get();
+
+        var lastActionOpt = gameJournalRepo.findLastGameTurn(gameJournalDto.getGameId());
+        if (lastActionOpt.isEmpty() || lastActionOpt.get().getAction() != GameAction.PASS) {
+            game.setState(GameState.ONE_PASSED);
+        } else {
+            game.setState(GameState.SCORING);
+        }
+
+        try {
+            gameRepo.save(game);
+        } catch (Exception e) {
+            throw new SQLException("Failed to update game state");
+        }
     }
 }

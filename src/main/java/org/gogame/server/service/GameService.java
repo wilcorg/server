@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.*;
+import org.gogame.server.domain.entities.dto.game.GameDto;
 import org.gogame.server.domain.entities.dto.user.UserInviteDto;
 import org.gogame.server.repositories.GameRepository;
 import org.gogame.server.repositories.GameboardRepository;
@@ -108,9 +109,15 @@ public class GameService {
         return inviteDtos;
     }
 
-    public GameEntity getCurrentGame(Long userId) {
+    public GameDto getCurrentGame(Long userId) {
         try {
-            return gameRepo.findCurrentGame(userId).orElseThrow();
+            GameEntity result = gameRepo.findCurrentGame(userId).orElseThrow();
+
+            return GameDto.builder()
+                    .gameId(result.getGameId())
+                    .userWhiteId(result.getUserWhite().getUserId())
+                    .userBlackId(result.getUserBlack().getUserId())
+                    .build();
         } catch (NullPointerException ex) {
             throw new NullPointerException("Game not found");
         }

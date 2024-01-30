@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.gogame.server.domain.entities.enums.GameState;
 
 @Data
 @AllArgsConstructor
@@ -16,4 +17,6 @@ public class GameDto {
     private Long userWhiteId;
 
     private Long userBlackId;
+
+    private GameState state;
 }

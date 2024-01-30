@@ -2,6 +2,7 @@ package org.gogame.server.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.gogame.server.domain.entities.enums.GameState;
 
 @Data
 @AllArgsConstructor
@@ -27,4 +28,9 @@ public class GameEntity {
     @ManyToOne
     @JoinColumn(name = "winner_id")
     private UserEntity winner;
+
+    @Builder.Default
+    @Enumerated(EnumType.STRING)
+    @Column(name = "game_state", length = 16, nullable = false)
+    private GameState state = GameState.PLAYING;
 }
