@@ -126,7 +126,7 @@ public class GameJournalControllerIntegrationTests {
                         .content(moveJson)
                         .header("Authorization", senderToken)
         ).andExpect(
-                MockMvcResultMatchers.status().is(HttpStatus.ALREADY_REPORTED.value())
+                MockMvcResultMatchers.status().is(HttpStatus.FORBIDDEN.value())
         );
     }
 
@@ -388,7 +388,6 @@ public class GameJournalControllerIntegrationTests {
                 .build());
         mockMvc.perform(
                 MockMvcRequestBuilders.post("/api/v1/game/turn/send")
-
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(moveJson)
                         .header("Authorization", senderToken)

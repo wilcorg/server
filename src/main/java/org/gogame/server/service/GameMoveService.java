@@ -81,7 +81,6 @@ public class GameMoveService {
         } else {
             return stoneType == StoneTypeEnum.WHITE;
         }
-
     }
 
     public void pass(GameJournalDto gameJournalDto) throws SQLException {

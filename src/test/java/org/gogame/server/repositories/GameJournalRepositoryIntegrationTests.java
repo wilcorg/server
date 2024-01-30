@@ -61,7 +61,7 @@ public class GameJournalRepositoryIntegrationTests {
     public void testThatGameJournalCanBeUpdated() {
         GameJournalEntity gameJournalEntityA = TestData.GameJournalUtils.createA(gameRepo, userRepo);
         gameJournalRepo.save(gameJournalEntityA);
-        gameJournalEntityA.setAction(GameAction.STOP_REQ);
+        gameJournalEntityA.setAction(GameAction.PASS);
         gameJournalRepo.save(gameJournalEntityA);
         Optional<GameJournalEntity> result = gameJournalRepo.findById(gameJournalEntityA.getTurnId());
         assertThat(result).isPresent();
