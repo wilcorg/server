@@ -61,7 +61,7 @@ public class FriendInviteController {
         return new ResponseEntity<>(userInviteDtoList, HttpStatus.OK);
     }
 
-    @PutMapping("/accept")
+    @PostMapping("/accept")
     public ResponseEntity<?> acceptFriendInvite(
             @RequestBody UserInviteDto request,
             @RequestHeader("Authorization") String token
