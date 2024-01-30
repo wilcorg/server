@@ -117,6 +117,7 @@ public class GameService {
                     .gameId(result.getGameId())
                     .userWhiteId(result.getUserWhite().getUserId())
                     .userBlackId(result.getUserBlack().getUserId())
+                    .state(result.getState())
                     .build();
         } catch (NullPointerException ex) {
             throw new NullPointerException("Game not found");
