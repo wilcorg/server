@@ -107,29 +107,4 @@ public class GameMoveService {
             throw new SQLException("Failed to update game state");
         }
     }
-
-    public void pass(GameJournalDto gameJournalDto) throws SQLException {
-        if (gameJournalDto.getAction() != GameAction.PASS) {
-            throw new IllegalArgumentException();
-        }
-
-        var gameOpt = gameRepo.findById(gameJournalDto.getGameId());
-        if (gameOpt.isEmpty()) {
-            throw new SQLException("Game doesn't exist");
-        }
-        var game = gameOpt.get();
-
-        var lastActionOpt = gameJournalRepo.findLastGameTurn(gameJournalDto.getGameId());
-        if (lastActionOpt.isEmpty() || lastActionOpt.get().getAction() != GameAction.PASS) {
-            game.setState(GameState.ONE_PASSED);
-        } else {
-            game.setState(GameState.SCORING);
-        }
-
-        try {
-            gameRepo.save(game);
-        } catch (Exception e) {
-            throw new SQLException("Failed to update game state");
-        }
-    }
 }
