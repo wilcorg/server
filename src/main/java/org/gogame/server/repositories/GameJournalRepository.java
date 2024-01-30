@@ -5,6 +5,8 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 
+import java.util.Optional;
+
 public interface GameJournalRepository extends CrudRepository<GameJournalEntity, Long> {
     @Query(value = """
             SELECT j
@@ -13,5 +15,5 @@ public interface GameJournalRepository extends CrudRepository<GameJournalEntity,
             ORDER BY j.turnId DESC
             LIMIT 1
             """)
-    GameJournalEntity findLastGameTurn(@Param("gameId") Long gameId);
+    Optional<GameJournalEntity> findLastGameTurn(@Param("gameId") Long gameId);
 }

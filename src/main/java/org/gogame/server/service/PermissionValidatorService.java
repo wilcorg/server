@@ -37,7 +37,7 @@ public class PermissionValidatorService {
         GameEntity game;
         try {
             user = userRepo.findByNickname(username).orElseThrow();
-            game = gameRepo.findCurrentGame(user.getUserId());
+            game = gameRepo.findCurrentGame(user.getUserId()).orElseThrow();
 
         } catch (NullPointerException | JDBCException ex) {
             return false;

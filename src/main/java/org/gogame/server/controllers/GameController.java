@@ -44,7 +44,12 @@ public class GameController {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 
-        GameEntity gameEntity = gameRepo.findCurrentGame(request.getAuthorId());
+        GameEntity gameEntity;
+        try {
+            gameEntity = gameRepo.findCurrentGame(request.getAuthorId()).orElseThrow();
+        } catch (NullPointerException ex) {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
 
         StoneTypeEnum stoneType;
         if (request.getAuthorId().equals(gameEntity.getUserWhite().getUserId())) {
@@ -86,8 +91,8 @@ public class GameController {
         String username = jwtService.extractUsername(token.substring(7));
         try {
             Long userId = userRepo.findByNickname(username).orElseThrow().getUserId();
-            Long gameId = gameRepo.findCurrentGame(userId).getGameId();
-            GameJournalEntity lastTurn = gameJournalRepo.findLastGameTurn(gameId);
+            Long gameId = gameRepo.findCurrentGame(userId).orElseThrow().getGameId();
+            GameJournalEntity lastTurn = gameJournalRepo.findLastGameTurn(gameId).orElseThrow();
             return new ResponseEntity<>(gameJournalMapper.mapTo(lastTurn), HttpStatus.OK);
         } catch (NullPointerException ex) {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
@@ -102,8 +107,10 @@ public class GameController {
         if (!validatorService.validateUserId(id, token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
-        GameEntity response = gameService.getCurrentGame(id);
-        if (response == null) {
+        GameEntity response;
+        try {
+            response = gameService.getCurrentGame(id);
+        } catch (NullPointerException ex) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
         return ResponseEntity.status(HttpStatus.OK).body(response);
