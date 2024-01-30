@@ -126,7 +126,7 @@ public class GameJournalControllerIntegrationTests {
                         .content(moveJson)
                         .header("Authorization", senderToken)
         ).andExpect(
-                MockMvcResultMatchers.status().is(HttpStatus.ALREADY_REPORTED.value())
+                MockMvcResultMatchers.status().is(HttpStatus.FORBIDDEN.value())
         );
     }
 

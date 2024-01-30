@@ -138,7 +138,7 @@ public class TestData {
 
             return GameJournalEntity.builder()
                     .game(gameEntity)
-                    .action(GameAction.STOP_REQ)
+                    .action(GameAction.PASS)
                     .author(gameEntity.getUserBlack())
                     .turnDate(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 23, 27, 18)))
                     .build();
@@ -151,7 +151,7 @@ public class TestData {
 
             return GameJournalEntity.builder()
                     .game(gameEntity)
-                    .action(GameAction.LEAVE)
+                    .action(GameAction.FORFEIT)
                     .author(gameEntity.getUserWhite())
                     .turnDate(Timestamp.valueOf(LocalDateTime.of(2024, 1, 12, 23, 27, 18)))
                     .build();
