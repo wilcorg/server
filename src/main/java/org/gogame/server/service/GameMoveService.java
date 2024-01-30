@@ -39,7 +39,7 @@ public class GameMoveService {
 
     public void leaveGame(GameJournalDto gameJournalDto) {
         try {
-            var gameEntity = gameRepo.findCurrentGame(gameJournalDto.getAuthorId());
+            var gameEntity = gameRepo.findCurrentGame(gameJournalDto.getAuthorId()).orElseThrow();
             if (gameEntity.getUserWhite().getUserId().equals(gameJournalDto.getAuthorId())) {
                 gameEntity.setWinner(gameEntity.getUserBlack());
             } else {
@@ -54,31 +54,23 @@ public class GameMoveService {
 
     public boolean isOpponentMove(StoneTypeEnum stoneType, GameJournalDto gameJournalDto) {
         var lastGameTurn = gameJournalRepo.findLastGameTurn(gameJournalDto.getGameId());
-        if (lastGameTurn == null) {
+        if (lastGameTurn.isEmpty()) {
             return stoneType == StoneTypeEnum.WHITE;
         }
-        var gameEntity = gameRepo.findCurrentGame(gameJournalDto.getAuthorId());
+
+        GameEntity gameEntity;
+        try {
+            gameEntity = gameRepo.findCurrentGame(gameJournalDto.getAuthorId()).orElseThrow();
+        } catch (NullPointerException ex) {
+            throw new NullPointerException("Game not found");
+        }
 
         // white had moved already
-        if (gameEntity.getUserWhite().getUserId().equals(lastGameTurn.getAuthor().getUserId())) {
+        if (gameEntity.getUserWhite().getUserId().equals(lastGameTurn.get().getAuthor().getUserId())) {
             return stoneType == StoneTypeEnum.BLACK;
         } else {
             return stoneType == StoneTypeEnum.WHITE;
         }
-    }
 
-    public StoneTypeEnum getUserColor(GameJournalDto gameJournalDto) {
-        GameEntity game = gameRepo.findCurrentGame(gameJournalDto.getAuthorId());
-        var lastGameTurn = gameJournalRepo.findLastGameTurn(gameJournalDto.getGameId());
-
-        if (game == null) {
-            throw new NullPointerException();
-        }
-
-        if (game.getUserWhite().getUserId().equals(lastGameTurn.getAuthor().getUserId())) {
-            return StoneTypeEnum.BLACK;
-        } else {
-            return StoneTypeEnum.WHITE;
-        }
     }
 }

@@ -109,7 +109,11 @@ public class GameService {
     }
 
     public GameEntity getCurrentGame(Long userId) {
-        return gameRepo.findCurrentGame(userId);
+        try {
+            return gameRepo.findCurrentGame(userId).orElseThrow();
+        } catch (NullPointerException ex) {
+            throw new NullPointerException("Game not found");
+        }
     }
 
 

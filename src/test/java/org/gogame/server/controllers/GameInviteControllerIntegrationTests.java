@@ -22,14 +22,14 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 @ExtendWith(SpringExtension.class)
 @DirtiesContext(classMode = DirtiesContext.ClassMode.AFTER_EACH_TEST_METHOD)
 @AutoConfigureMockMvc
-public class GameControllerIntegrationTests {
+public class GameInviteControllerIntegrationTests {
 
     private final MockMvc mockMvc;
 
     private final ObjectMapper objectMapper;
 
     @Autowired
-    public GameControllerIntegrationTests(MockMvc mockMvc, ObjectMapper objectMapper) {
+    public GameInviteControllerIntegrationTests(MockMvc mockMvc, ObjectMapper objectMapper) {
         this.mockMvc = mockMvc;
         this.objectMapper = objectMapper;
     }
