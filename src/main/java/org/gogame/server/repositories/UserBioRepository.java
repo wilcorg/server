@@ -1,8 +1,6 @@
 package org.gogame.server.repositories;
 
-import org.gogame.server.domain.entities.MessageEntity;
 import org.gogame.server.domain.entities.UserBioEntity;
-import org.gogame.server.domain.entities.UserFriendInviteEntity;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;

@@ -75,7 +75,7 @@ public class UserFriendInviteControllerIntegrationTests {
         );
 
         mockMvc.perform(
-                MockMvcRequestBuilders.put("/api/v1/friend/invite/accept")
+                MockMvcRequestBuilders.post("/api/v1/friend/invite/accept")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(userInviteDtoJson)
                         .header("Authorization", TestData.getJwtToken(mvcResultB))

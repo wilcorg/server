@@ -20,11 +20,9 @@ public class UserLobbyEntity {
     @Column(name = "user_lobby_id", nullable = false, unique = true)
     private Long userLobbyId;
 
-    @ManyToOne
-    @PrimaryKeyJoinColumn
-    private UserEntity user;
+    private Long userId;
 
     @Enumerated(EnumType.STRING)
-    @Column(name = "user_lobby_state", length = 10, nullable = false)
+    @Column(name = "user_lobby_state", length = 20)
     private UserLobbyState userLobbyState;
 }

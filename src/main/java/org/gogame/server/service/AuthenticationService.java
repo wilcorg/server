@@ -25,10 +25,11 @@ public class AuthenticationService {
     private final LeaderboardRepository leaderboardRepo;
     private final UserLobbyRepository userLobbyRepo;
     private final UserStatsRepository userStatsRepo;
+    private final TokenRepository tokenRepo;
+    private final LobbyService lobbyService;
     private final JwtService jwtService;
     private final AuthenticationManager authManager;
     private final Mapper<UserRegisterDto, UserEntity> userRegisterMapper;
-    private final TokenRepository tokenRepo;
 
     public AuthResponseDto register(UserRegisterDto dto) throws SQLException {
         UserEntity registeredUser = userRegisterMapper.mapTo(dto);
@@ -36,7 +37,7 @@ public class AuthenticationService {
             registeredUser = userRepo.save(registeredUser);
             userBioRepo.save(UserBioEntity.builder().user(registeredUser).bio("").build());
             leaderboardRepo.save(LeaderboardEntity.builder().user(registeredUser).score(0L).build());
-            userLobbyRepo.save(UserLobbyEntity.builder().user(registeredUser).userLobbyState(UserLobbyState.OFFLINE).build());
+            userLobbyRepo.save(UserLobbyEntity.builder().userId(registeredUser.getUserId()).userLobbyState(UserLobbyState.ONLINE).build());
             userStatsRepo.save(UserStatsEntity.builder().user(registeredUser).gamePlayed(0L).gameWon(0L).gameLost(0L).build());
 
         } catch (DataIntegrityViolationException ex) {
@@ -71,6 +72,7 @@ public class AuthenticationService {
         revokeAllUserTokens(loggedUser);
         saveUserToken(loggedUser, jwtToken);
 
+        lobbyService.updateLobbyState(loggedUser.getUserId());
         return AuthResponseDto.builder()
                 .userId(loggedUser.getUserId())
                 .token(jwtToken)

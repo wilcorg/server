@@ -202,49 +202,6 @@ public class TestData {
                     .build();
         }
     }
-
-    public static class MessageUtils {
-
-        public static MessageEntity createA(final GameRepository gameRepo,
-                                            final UserRepository userRepo) {
-
-            var gameEntity = GameEntityUtils.createA(userRepo);
-            gameRepo.save(gameEntity);
-
-            return MessageEntity.builder()
-                    .game(gameEntity)
-                    .author(gameEntity.getUserWhite())
-                    .content("tests are boring")
-                    .build();
-        }
-
-        public static MessageEntity createB(final GameRepository gameRepo,
-                                            final UserRepository userRepo) {
-
-            var gameEntity = GameEntityUtils.createB(userRepo);
-            gameRepo.save(gameEntity);
-
-            return MessageEntity.builder()
-                    .game(gameEntity)
-                    .author(gameEntity.getUserWhite())
-                    .content("very boring")
-                    .build();
-        }
-
-        public static MessageEntity createC(final GameRepository gameRepo,
-                                            final UserRepository userRepo) {
-
-            var gameEntity = GameEntityUtils.createC(userRepo);
-            gameRepo.save(gameEntity);
-
-            return MessageEntity.builder()
-                    .game(gameEntity)
-                    .author(gameEntity.getUserWhite())
-                    .content("very very boring")
-                    .build();
-        }
-    }
-
     public static class RegisterDtoUtils {
 
         public static UserRegisterDto createA() {
