@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -67,23 +68,23 @@ public class GameService {
                     .gameboard(objectMapper.writeValueAsString(new GameboardJSON()))
                     .build();
             gameboardRepo.save(gameboardEntity);
-        } catch (DataIntegrityViolationException  | JsonProcessingException e) {
+
+            var invite = userGameInviteRepo.findByUserIds(sender.getUserId(), receiver.getUserId()).getFirst();
+
+            userGameInviteRepo.delete(invite);
+
+            var userStats = userStatsRepo.findByUserId(sender).orElseThrow();
+            userStats.setGamePlayed(userStats.getGamePlayed() + 1);
+            userStatsRepo.save(userStats);
+
+            userStats = userStatsRepo.findByUserId(receiver).orElseThrow();
+            userStats.setGamePlayed(userStats.getGamePlayed() + 1);
+            userStatsRepo.save(userStats);
+            return modelMapper.map(invite, UserInviteDto.class);
+        } catch (DataIntegrityViolationException | JsonProcessingException e) {
             throw new SQLException("Failed to save new game");
         }
 
-        var invite = userGameInviteRepo.findByUserIds(sender.getUserId(), receiver.getUserId()).getFirst();
-
-        userGameInviteRepo.delete(invite);
-
-        var userStats = userStatsRepo.findByUserId(sender.getUserId());
-        userStats.setGamePlayed(userStats.getGamePlayed() + 1);
-        userStatsRepo.save(userStats);
-
-        userStats = userStatsRepo.findByUserId(receiver.getUserId());
-        userStats.setGamePlayed(userStats.getGamePlayed() + 1);
-        userStatsRepo.save(userStats);
-
-        return modelMapper.map(invite, UserInviteDto.class);
     }
 
     public UserInviteDto rejectGameInvite(UserInviteDto userInviteDto) throws SQLException {
@@ -144,13 +145,13 @@ public class GameService {
         game.get().setWinner(winner.get());
         game.get().setState(GameState.FINISHED);
 
-        var userStats = userStatsRepo.findByUserId(userId);
+        var userStats = userStatsRepo.findByUserId(userRepo.findById(userId).orElseThrow()).orElseThrow();
         userStats.setGameWon(userStats.getGameWon() + 1);
         userStatsRepo.save(userStats);
 
         try {
             gameRepo.save(game.get());
-        } catch (DataIntegrityViolationException e) {
+        } catch (DataIntegrityViolationException | NoSuchElementException e) {
             throw new SQLException("Failed to set winner id");
         }
     }

@@ -36,7 +36,7 @@ public class AuthenticationService {
             registeredUser = userRepo.save(registeredUser);
             userBioRepo.save(UserBioEntity.builder().user(registeredUser).bio("").build());
             userLobbyRepo.save(UserLobbyEntity.builder().userId(registeredUser.getUserId()).userLobbyState(UserLobbyState.ONLINE).build());
-            userStatsRepo.save(UserStatsEntity.builder().user(registeredUser).gamePlayed(0L).gameWon(0L).gameLost(0L).build());
+            userStatsRepo.save(UserStatsEntity.builder().user(registeredUser).gamePlayed(0L).gameWon(0L).build());
 
         } catch (DataIntegrityViolationException ex) {
             throw new SQLException("User with this nickname already exists");
