@@ -7,10 +7,7 @@ import org.gogame.server.domain.entities.*;
 import org.gogame.server.domain.entities.dto.game.GameDto;
 import org.gogame.server.domain.entities.dto.user.UserInviteDto;
 import org.gogame.server.domain.entities.enums.GameState;
-import org.gogame.server.repositories.GameRepository;
-import org.gogame.server.repositories.GameboardRepository;
-import org.gogame.server.repositories.UserGameInviteRepository;
-import org.gogame.server.repositories.UserRepository;
+import org.gogame.server.repositories.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.util.Pair;
@@ -30,6 +27,7 @@ public class GameService {
     private final ModelMapper modelMapper;
     private final GameboardRepository gameboardRepo;
     private final ObjectMapper objectMapper;
+    private final UserStatsRepository userStatsRepo;
 
     public UserInviteDto sendGameInvite(UserInviteDto userInviteDto) throws SQLException {
 
@@ -76,6 +74,14 @@ public class GameService {
         var invite = userGameInviteRepo.findByUserIds(sender.getUserId(), receiver.getUserId()).getFirst();
 
         userGameInviteRepo.delete(invite);
+
+        var userStats = userStatsRepo.findByUserId(sender.getUserId());
+        userStats.setGamePlayed(userStats.getGamePlayed() + 1);
+        userStatsRepo.save(userStats);
+
+        userStats = userStatsRepo.findByUserId(receiver.getUserId());
+        userStats.setGamePlayed(userStats.getGamePlayed() + 1);
+        userStatsRepo.save(userStats);
 
         return modelMapper.map(invite, UserInviteDto.class);
     }
@@ -137,6 +143,11 @@ public class GameService {
         }
         game.get().setWinner(winner.get());
         game.get().setState(GameState.FINISHED);
+
+        var userStats = userStatsRepo.findByUserId(userId);
+        userStats.setGameWon(userStats.getGameWon() + 1);
+        userStatsRepo.save(userStats);
+
         try {
             gameRepo.save(game.get());
         } catch (DataIntegrityViolationException e) {

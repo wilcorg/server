@@ -34,9 +34,4 @@ public class UserStatsEntity {
     @ColumnDefault("0")
     @Column(name = "game_won")
     private Long gameWon;
-
-    @Range(min = 0)
-    @ColumnDefault("0")
-    @Column(name = "game_lost")
-    private Long gameLost;
 }
