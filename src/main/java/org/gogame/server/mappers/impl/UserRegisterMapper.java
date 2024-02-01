@@ -2,6 +2,7 @@ package org.gogame.server.mappers.impl;
 
 import org.gogame.server.domain.entities.UserEntity;
 import org.gogame.server.auth.UserRegisterDto;
+import org.gogame.server.domain.entities.enums.Role;
 import org.gogame.server.mappers.Mapper;
 import org.modelmapper.ModelMapper;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -26,6 +27,7 @@ public class UserRegisterMapper implements Mapper<UserRegisterDto, UserEntity> {
         UserEntity userEntity = modelMapper.map(userRegisterDto, UserEntity.class);
         userEntity.setPasswordHash(passwordEncoder.encode(userRegisterDto.getPassword()));
         userEntity.setJoinDate(new Timestamp(new Date().getTime()));
+        userEntity.setRole(Role.USER);
         return userEntity;
     }
 

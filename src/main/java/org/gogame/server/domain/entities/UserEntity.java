@@ -2,6 +2,7 @@ package org.gogame.server.domain.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.gogame.server.domain.entities.enums.Role;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -33,9 +34,9 @@ public class UserEntity implements UserDetails {
     @Column(name = "join_date")
     private Timestamp joinDate;
 
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
-
-    // we don't need this for now
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return null;

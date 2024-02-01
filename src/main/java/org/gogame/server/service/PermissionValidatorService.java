@@ -3,6 +3,7 @@ package org.gogame.server.service;
 import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.GameEntity;
 import org.gogame.server.domain.entities.UserEntity;
+import org.gogame.server.domain.entities.enums.Role;
 import org.gogame.server.repositories.GameRepository;
 import org.gogame.server.repositories.UserRepository;
 import org.hibernate.JDBCException;
@@ -28,6 +29,17 @@ public class PermissionValidatorService {
             return false;
         }
         return user.getNickname().equals(username);
+    }
+
+    public boolean validateAdmin(String token) {
+        UserEntity user;
+        try {
+            user = userRepo.findByNickname(jwtService.extractUsername(token.substring(7))).orElseThrow();
+        } catch (Exception e) {
+            return false;
+        }
+
+        return user.getRole().equals(Role.ADMIN);
     }
 
     public boolean validateGameId(Long gameId, String token) {

@@ -37,7 +37,7 @@ public class UserBioController {
 
     @PutMapping("/user/bio/{id}")
     public ResponseEntity<UserBioDto> setUserBio(@PathVariable Long id, @RequestBody UserBioDto userBioDto, @RequestHeader("Authorization") String token) {
-        if (!validatorService.validateUserId(id, token)) {
+        if (!validatorService.validateAdmin(token) && !validatorService.validateUserId(id, token)) {
             return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
         }
 

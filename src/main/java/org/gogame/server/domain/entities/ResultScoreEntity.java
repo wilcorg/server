@@ -13,10 +13,6 @@ import org.gogame.server.domain.entities.enums.GameResult;
 public class ResultScoreEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
-    @Column(name = "result_score_id", nullable = false, unique = true)
-    private Long resultScoreId;
-
     @Enumerated(EnumType.STRING)
     @Column(name = "game_result", length = 5, nullable = false, unique = true)
     private GameResult result;

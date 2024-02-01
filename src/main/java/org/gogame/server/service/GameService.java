@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.gogame.server.domain.entities.*;
 import org.gogame.server.domain.entities.dto.game.GameDto;
 import org.gogame.server.domain.entities.dto.user.UserInviteDto;
+import org.gogame.server.domain.entities.enums.GameState;
 import org.gogame.server.repositories.GameRepository;
 import org.gogame.server.repositories.GameboardRepository;
 import org.gogame.server.repositories.UserGameInviteRepository;
@@ -135,6 +136,7 @@ public class GameService {
             throw new SQLException("User doesn't exist");
         }
         game.get().setWinner(winner.get());
+        game.get().setState(GameState.FINISHED);
         try {
             gameRepo.save(game.get());
         } catch (DataIntegrityViolationException e) {

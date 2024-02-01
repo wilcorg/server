@@ -82,6 +82,7 @@ public class GameController {
             case FORFEIT -> {
                 try {
                     gameMoveService.leaveGame(request);
+                    gameService.setGameWinner(request.getGameId(), request.getAuthorId());
                 } catch (Exception e) {
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
@@ -96,15 +97,6 @@ public class GameController {
                 } catch (Exception e) {
                     return new ResponseEntity<>(HttpStatus.FORBIDDEN);
                 }
-            }
-            case I_WON -> {
-
-            }
-            case I_LOST -> {
-
-            }
-            case RESUME -> {
-
             }
         }
 

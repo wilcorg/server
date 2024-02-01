@@ -158,50 +158,6 @@ public class TestData {
         }
     }
 
-    public static class LeaderboardUtils {
-
-        public static LeaderboardEntity createA(final UserRepository userRepo) {
-
-            var userA = UserEntityUtils.createA();
-
-            if (userRepo.findByNickname(userA.getNickname()).isEmpty()) {
-                userRepo.save(userA);
-            }
-
-            return LeaderboardEntity.builder()
-                    .user(userA)
-                    .score(666L)
-                    .build();
-        }
-
-        public static LeaderboardEntity createB(final UserRepository userRepo) {
-
-            var userB = UserEntityUtils.createB();
-
-            if (userRepo.findByNickname(userB.getNickname()).isEmpty()) {
-                userRepo.save(userB);
-            }
-
-            return LeaderboardEntity.builder()
-                    .user(userB)
-                    .score(145L)
-                    .build();
-        }
-
-        public static LeaderboardEntity createC(final UserRepository userRepo) {
-
-            var userC = UserEntityUtils.createC();
-
-            if (userRepo.findByNickname(userC.getNickname()).isEmpty()) {
-                userRepo.save(userC);
-            }
-
-            return LeaderboardEntity.builder()
-                    .user(userC)
-                    .score(110L)
-                    .build();
-        }
-    }
     public static class RegisterDtoUtils {
 
         public static UserRegisterDto createA() {
